@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2B Partners — AYDAR</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.cat-hero{min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 80px;position:relative;overflow:hidden;margin-top:var(--nav-h)}
+.cat-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 25%,rgba(27,153,139,.12) 0%,transparent 65%),radial-gradient(ellipse 50% 50% at 15% 70%,rgba(244,162,97,.06) 0%,transparent 55%),var(--bg)}
+.cat-hero-pat{position:absolute;inset:0;opacity:.05}
+.grid-glow{position:absolute;top:5%;right:5%;width:400px;height:400px;background:radial-gradient(ellipse at 50% 40%,rgba(27,153,139,.09),transparent 70%);border-radius:50%;filter:blur(80px);pointer-events:none}
+.cat-hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-link{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--teal-l)}
+.cat-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(60px,11vw,130px);letter-spacing:-4px;line-height:.92;margin-bottom:24px;background:linear-gradient(155deg,var(--white) 30%,var(--teal) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cat-hero-sub{font-size:clamp(17px,2vw,22px);font-weight:300;font-style:italic;color:var(--muted);max-width:620px;margin-bottom:36px;line-height:1.7}
+.cat-hero-acts{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.section-pad{padding:80px 0 120px}
+.cat-section-head{margin-bottom:52px}
+.cat-section-head h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,4vw,48px);letter-spacing:-1.5px;margin-bottom:10px}
+
+/* Stats bar */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:80px}
+.s-cell{background:var(--card);padding:32px 24px;text-align:center;transition:background .3s}
+.s-cell:hover{background:var(--card2)}
+.s-num{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;letter-spacing:-1px;color:var(--teal-l);display:block;margin-bottom:4px}
+.s-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+
+/* Process steps */
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:80px}
+.p-step{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 22px;position:relative;transition:border-color .3s,transform .3s}
+.p-step:hover{border-color:var(--border-h);transform:translateY(-4px)}
+.p-step-num{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:rgba(27,153,139,.12);letter-spacing:-2px;line-height:1;margin-bottom:12px}
+.p-step-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px;color:var(--white)}
+.p-step-desc{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300}
+
+/* Partner types */
+.partner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:60px}
+.p-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 30px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s}
+.p-card:hover{border-color:var(--border-h);transform:translateY(-5px)}
+.p-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(27,153,139,.06) 0%,transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none}
+.p-card:hover::after{opacity:1}
+.p-ico{font-size:40px;margin-bottom:18px;display:block}
+.p-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.4px;margin-bottom:10px}
+.p-body{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:20px}
+.p-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-l);margin-bottom:14px;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-l);background:rgba(27,153,139,.08);border:1px solid var(--border);border-radius:6px;padding:4px 11px}
+
+/* Contact form */
+.b2b-form{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:52px;position:relative;overflow:hidden}
+.b2b-form::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+.form-left h2{font-family:'Syne',sans-serif;font-size:clamp(26px,3.5vw,42px);font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;background:linear-gradient(155deg,var(--white),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.form-left p{font-size:16px;color:var(--muted);line-height:1.75;font-weight:300;margin-bottom:24px}
+.checklist{list-style:none}
+.checklist li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:14px;color:var(--muted);font-weight:300}
+.checklist li::before{content:'✦';color:var(--teal);font-size:10px;margin-top:3px;flex-shrink:0}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-l)}
+.fi2,.fs2,.fta{background:#0a1e19;border:1px solid var(--border);border-radius:10px;color:var(--white);font-family:'Fraunces',serif;font-size:15px;font-weight:300;padding:13px 16px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.fi2:focus,.fs2:focus,.fta:focus{border-color:var(--teal-l);box-shadow:0 0 0 3px rgba(27,153,139,.12)}
+.fi2::placeholder,.fta::placeholder{color:var(--dim)}
+.fta{resize:vertical;min-height:110px}
+.fs2{appearance:none;cursor:pointer}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.fsub{width:100%;background:var(--teal);color:#000;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;padding:15px 28px;border-radius:980px;border:none;cursor:pointer;transition:background .2s,transform .2s;margin-top:8px}
+.fsub:hover{background:var(--teal-l);transform:scale(1.02)}
+.form-success{display:none;text-align:center;padding:32px}
+
+.cta-band{background:var(--card);border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);padding:60px 0;text-align:center;position:relative;overflow:hidden;margin-top:80px}
+.cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.07) 0%,transparent 70%)}
+.cta-band h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;position:relative;z-index:1}
+.cta-band p{font-size:17px;color:var(--muted);font-weight:300;font-style:italic;margin-bottom:32px;position:relative;z-index:1}
+.cta-acts{display:flex;gap:16px;justify-content:center;position:relative;z-index:1}
+
+@media(max-width:900px){.partner-grid{grid-template-columns:repeat(2,1fr)}.process{grid-template-columns:repeat(2,1fr)}.stats-bar{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.fr{grid-template-columns:1fr}}
+@media(max-width:600px){.partner-grid{grid-template-columns:1fr}.process{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav id="nav"></nav>
+
+<section class="cat-hero">
+  <div class="cat-hero-bg"></div>
+  <div class="cat-hero-pat pat-s"></div>
+  <div class="grid-glow"></div>
+  <div class="si">
+    <div class="cat-hero-eyebrow">
+      <a href="index.html" class="back-link">← Back</a>
+      <span style="color:var(--dim)">·</span>
+      <span class="ey" style="margin:0">B2B Partnerships</span>
+    </div>
+    <h1>Smart from<br>the blueprint.</h1>
+    <p class="cat-hero-sub">Partner with AYDAR to deliver smart-ready properties at scale. We integrate at the construction phase — maximum impact, minimum cost, maximum value for your buyers.</p>
+    <div class="cat-hero-acts">
+      <a href="#b2b-form" class="btn-p">Become a partner</a>
+      <a href="#why-b2b" class="btn-g">Why partner? →</a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker"><div class="tt"><span class="ti"><span>✦</span> Real Estate Developers</span><span class="ti"><span>✦</span> Construction Companies</span><span class="ti"><span>✦</span> Property Managers</span><span class="ti"><span>✦</span> Hotels & Riads</span><span class="ti"><span>✦</span> Bulk Pricing</span><span class="ti"><span>✦</span> White-label Option</span><span class="ti"><span>✦</span> Real Estate Developers</span><span class="ti"><span>✦</span> Construction Companies</span><span class="ti"><span>✦</span> Property Managers</span><span class="ti"><span>✦</span> Hotels & Riads</span><span class="ti"><span>✦</span> Bulk Pricing</span><span class="ti"><span>✦</span> White-label Option</span></div></div>
+
+<section class="section-pad" id="why-b2b">
+  <div class="si">
+
+    <div class="stats-bar reveal">
+      <div class="s-cell"><span class="s-num">+18%</span><span class="s-lbl">Property value premium</span></div>
+      <div class="s-cell"><span class="s-num">-30%</span><span class="s-lbl">Energy costs for residents</span></div>
+      <div class="s-cell"><span class="s-num">1wk</span><span class="s-lbl">Install per unit</span></div>
+      <div class="s-cell"><span class="s-num">10yr</span><span class="s-lbl">Support guarantee</span></div>
+    </div>
+
+    <!-- Partner types -->
+    <div class="cat-section-head reveal">
+      <span class="ey">Who we work with</span>
+      <h2>Built for every scale.</h2>
+    </div>
+    <div class="partner-grid reveal d1">
+      <div class="p-card">
+        <span class="p-ico">🏗</span>
+        <span class="p-tag">Real Estate Developers</span>
+        <div class="p-title">Developers</div>
+        <p class="p-body">Integrate AYDAR at the blueprint stage. Every unit delivered smart-ready. Competitive advantage on every sales brochure.</p>
+        <div class="chips"><span class="chip">Bulk pricing</span><span class="chip">Pre-wiring plan</span><span class="chip">Marketing kit</span></div>
+        <a href="#b2b-form" class="btn-g" style="font-size:13px">Talk to us →</a>
+      </div>
+      <div class="p-card">
+        <span class="p-ico">🏨</span>
+        <span class="p-tag">Hospitality</span>
+        <div class="p-title">Hotels & Riads</div>
+        <p class="p-body">Smart room controls, energy management and guest experience — from budget guesthouses to 5-star riads. AYDAR transforms hospitality.</p>
+        <div class="chips"><span class="chip">Guest app</span><span class="chip">Check-in automation</span><span class="chip">Energy saving</span></div>
+        <a href="#b2b-form" class="btn-g" style="font-size:13px">Talk to us →</a>
+      </div>
+      <div class="p-card">
+        <span class="p-ico">🏢</span>
+        <span class="p-tag">Property Management</span>
+        <div class="p-title">Property Managers</div>
+        <p class="p-body">Manage entire portfolios from one dashboard. Remote access control, energy monitoring and maintenance alerts across all your units.</p>
+        <div class="chips"><span class="chip">Portfolio dashboard</span><span class="chip">Remote access</span><span class="chip">Maintenance alerts</span></div>
+        <a href="#b2b-form" class="btn-g" style="font-size:13px">Talk to us →</a>
+      </div>
+    </div>
+
+    <!-- Process -->
+    <div class="cat-section-head reveal">
+      <span class="ey">How it works</span>
+      <h2>Simple. Fast. Scalable.</h2>
+    </div>
+    <div class="process reveal d1">
+      <div class="p-step"><div class="p-step-num">01</div><div class="p-step-title">Discovery call</div><div class="p-step-desc">We understand your project scale, timeline, and requirements. No-obligation consultation.</div></div>
+      <div class="p-step"><div class="p-step-num">02</div><div class="p-step-title">Custom proposal</div><div class="p-step-desc">A tailored hardware selection, pricing and installation plan — delivered within 48 hours.</div></div>
+      <div class="p-step"><div class="p-step-num">03</div><div class="p-step-title">Integration</div><div class="p-step-desc">AYDAR technicians coordinate with your construction team for clean, phase-aligned installation.</div></div>
+      <div class="p-step"><div class="p-step-num">04</div><div class="p-step-title">Handover</div><div class="p-step-desc">Every resident gets a trained setup, the AYDAR app, and 10-year product support.</div></div>
+    </div>
+
+    <!-- B2B Contact form -->
+    <div class="b2b-form reveal" id="b2b-form">
+      <div class="form-grid">
+        <div class="form-left">
+          <h2>Ready to partner?</h2>
+          <p>Tell us about your project and we'll get back to you within 24 hours with a tailored proposal.</p>
+          <ul class="checklist">
+            <li>No minimum unit commitment for first contact</li>
+            <li>Competitive bulk pricing for 10+ units</li>
+            <li>AYDAR handles installation and commissioning</li>
+            <li>10-year hardware warranty for B2B partners</li>
+            <li>Dedicated partner account manager</li>
+          </ul>
+        </div>
+        <div>
+          <div id="b2b-ff">
+            <div class="fr">
+              <div class="fg"><label class="fl">Full name</label><input class="fi2" type="text" placeholder="Abir Ismaili" id="b2b-name"></div>
+              <div class="fg"><label class="fl">Company</label><input class="fi2" type="text" placeholder="Your company"></div>
+            </div>
+            <div class="fg"><label class="fl">Email</label><input class="fi2" type="email" placeholder="contact@company.ma" id="b2b-email"></div>
+            <div class="fg"><label class="fl">Phone</label><input class="fi2" type="tel" placeholder="+212 6xx xxx xxx"></div>
+            <div class="fg"><label class="fl">Project type</label>
+              <select class="fs2"><option value="">Select one</option><option>Residential development</option><option>Hotel / Riad</option><option>Office / Commercial</option><option>Property management</option><option>Other</option></select>
+            </div>
+            <div class="fg"><label class="fl">Estimated units</label>
+              <select class="fs2"><option value="">Select range</option><option>1–10 units</option><option>10–50 units</option><option>50–200 units</option><option>200+ units</option></select>
+            </div>
+            <div class="fg"><label class="fl">Project details</label><textarea class="fta" placeholder="Tell us about your project, location, timeline…"></textarea></div>
+            <button class="fsub" onclick="handleB2B()">Send partnership request ✦</button>
+          </div>
+          <div class="form-success" id="b2b-suc"><div style="font-size:40px;margin-bottom:16px">✦</div><p style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--teal-l);margin-bottom:8px">Request received.</p><p style="color:var(--muted);font-style:italic">We'll have a proposal in your inbox within 24 hours. Shukran!</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="si">
+    <h2>Morocco's smart home standard, starting now.</h2>
+    <p>Be among the first developers to offer AYDAR-powered properties.</p>
+    <div class="cta-acts"><a href="#b2b-form" class="btn-p">Get started</a><a href="index.html" class="btn-g">← Back to AYDAR</a></div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<button class="btt" id="btt">↑</button>
+<script src="shared.js"></script>
+<script>
+injectNav('B2B');injectFooter();initScroll();initReveal();
+function handleB2B(){
+  const n=document.getElementById('b2b-name').value.trim();
+  const e=document.getElementById('b2b-email').value.trim();
+  if(!n||!e){alert('Please fill in your name and email.');return}
+  document.getElementById('b2b-ff').style.display='none';
+  document.getElementById('b2b-suc').style.display='block';
+}
+</script>
+</body>
+</html>

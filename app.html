@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AYDAR App</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.cat-hero{min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 80px;position:relative;overflow:hidden;margin-top:var(--nav-h)}
+.cat-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 25%,rgba(27,153,139,.15) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 85% 60%,rgba(43,191,174,.08) 0%,transparent 55%),var(--bg)}
+.cat-hero-pat{position:absolute;inset:0;opacity:.04}
+.phone-glow{position:absolute;top:5%;right:8%;width:280px;height:500px;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.12),transparent 70%);border-radius:50%;filter:blur(60px);pointer-events:none;animation:pg 6s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.9;transform:scale(1.06)}}
+.cat-hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-link{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--teal-l)}
+.cat-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(60px,11vw,130px);letter-spacing:-4px;line-height:.92;margin-bottom:24px;background:linear-gradient(155deg,var(--white) 30%,var(--teal) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cat-hero-sub{font-size:clamp(17px,2vw,22px);font-weight:300;font-style:italic;color:var(--muted);max-width:580px;margin-bottom:36px;line-height:1.7}
+.cat-hero-acts{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.section-pad{padding:80px 0 120px}
+.cat-section-head{margin-bottom:52px}
+.cat-section-head h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,4vw,48px);letter-spacing:-1.5px;margin-bottom:10px}
+
+/* Phone mockup */
+.phone-row{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:24px;padding:52px;margin-bottom:60px;position:relative;overflow:hidden}
+.phone-row::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--teal-l))}
+.phone-mockup{display:flex;justify-content:center}
+.phone-svg{filter:drop-shadow(0 20px 60px rgba(27,153,139,.3))}
+.feat-list2{list-style:none;margin-top:16px}
+.feat-list2 li{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:.5px solid var(--border);font-size:15px;color:var(--muted);font-weight:300;line-height:1.6}
+.feat-list2 li:last-child{border-bottom:none}
+.feat-list2 li::before{content:'✦';color:var(--teal);font-size:10px;margin-top:4px;flex-shrink:0}
+.feat-list2 li strong{color:var(--white);font-weight:400}
+
+/* Feature tiles */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:48px}
+.feat-tile{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;transition:border-color .3s,transform .3s}
+.feat-tile:hover{border-color:var(--border-h);transform:translateY(-4px)}
+.feat-ico{font-size:32px;margin-bottom:14px}
+.feat-t{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.3px;margin-bottom:8px}
+.feat-d{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300}
+
+/* Waitlist form */
+.waitlist-wrap{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:52px;text-align:center;position:relative;overflow:hidden}
+.waitlist-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.waitlist-wrap::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.06) 0%,transparent 70%)}
+.wl-inner{position:relative;z-index:1}
+.wl-row{display:flex;gap:12px;max-width:480px;margin:32px auto 0}
+.wl-input{flex:1;background:#0a1e19;border:1px solid var(--border);border-radius:10px;color:var(--white);font-family:'Fraunces',serif;font-size:15px;padding:13px 16px;outline:none;transition:border-color .2s}
+.wl-input:focus{border-color:var(--teal-l)}
+.wl-input::placeholder{color:var(--dim)}
+
+.cta-band{background:var(--card);border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);padding:60px 0;text-align:center;position:relative;overflow:hidden;margin-top:80px}
+.cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.07) 0%,transparent 70%)}
+.cta-band h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;position:relative;z-index:1}
+.cta-band p{font-size:17px;color:var(--muted);font-weight:300;font-style:italic;margin-bottom:32px;position:relative;z-index:1}
+.cta-acts{display:flex;gap:16px;justify-content:center;position:relative;z-index:1}
+
+@media(max-width:900px){.phone-row{grid-template-columns:1fr}.phone-mockup{display:none}.feat-grid{grid-template-columns:repeat(2,1fr)}.wl-row{flex-direction:column}}
+@media(max-width:600px){.feat-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav id="nav"></nav>
+
+<section class="cat-hero">
+  <div class="cat-hero-bg"></div>
+  <div class="cat-hero-pat pat-s"></div>
+  <div class="phone-glow"></div>
+  <div class="si">
+    <div class="cat-hero-eyebrow">
+      <a href="index.html" class="back-link">← Back</a>
+      <span style="color:var(--dim)">·</span>
+      <span class="ey" style="margin:0">The AYDAR App</span>
+    </div>
+    <h1>One app.<br>Every room.</h1>
+    <p class="cat-hero-sub">Control, automate, and monitor your entire home from a single beautiful interface — in Darija, French, or Arabic.</p>
+    <div class="cat-hero-acts">
+      <a href="#waitlist" class="btn-p">Join the waitlist</a>
+      <a href="#features" class="btn-g">Explore features →</a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker"><div class="tt"><span class="ti"><span>✦</span> Darija</span><span class="ti"><span>✦</span> Français</span><span class="ti"><span>✦</span> العربية</span><span class="ti"><span>✦</span> Scene Control</span><span class="ti"><span>✦</span> Energy Monitor</span><span class="ti"><span>✦</span> AI Automation</span><span class="ti"><span>✦</span> Voice Control</span><span class="ti"><span>✦</span> iOS + Android</span><span class="ti"><span>✦</span> Darija</span><span class="ti"><span>✦</span> Français</span><span class="ti"><span>✦</span> العربية</span><span class="ti"><span>✦</span> Scene Control</span><span class="ti"><span>✦</span> Energy Monitor</span><span class="ti"><span>✦</span> AI Automation</span><span class="ti"><span>✦</span> Voice Control</span><span class="ti"><span>✦</span> iOS + Android</span></div></div>
+
+<section class="section-pad" id="features">
+  <div class="si">
+
+    <div class="phone-row reveal">
+      <div>
+        <span class="ey">Dashboard</span>
+        <h2 class="cat-section-head" style="margin-bottom:0"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(26px,3.5vw,42px);letter-spacing:-1.5px">Your home at a glance.</span></h2>
+        <ul class="feat-list2">
+          <li><span>Live view of every device across every room — temperature, lights, locks, energy.</span></li>
+          <li><span><strong>One-tap scenes</strong> — Morning, Cinema, Dinner, Sleep, Away — customizable.</span></li>
+          <li><span><strong>Energy dashboard</strong> — real-time consumption and monthly reports.</span></li>
+          <li><span><strong>Darija, French and Arabic</strong> UI — set in app settings.</span></li>
+          <li><span><strong>AI suggestions</strong> — "Your living room lights have been on for 3 hours."</span></li>
+          <li><span><strong>Guest access</strong> — temporary or permanent, per device or per room.</span></li>
+        </ul>
+      </div>
+      <div class="phone-mockup">
+        <svg class="phone-svg" width="240" height="480" viewBox="0 0 240 480" fill="none">
+          <rect x="10" y="10" width="220" height="460" rx="36" fill="#071512" stroke="#1B998B" stroke-width="1.2"/>
+          <rect x="10" y="10" width="220" height="460" rx="36" fill="none" stroke="rgba(27,153,139,0.3)" stroke-width="0.5"/>
+          <rect x="90" y="18" width="60" height="8" rx="4" fill="rgba(27,153,139,0.15)"/>
+          <!-- Header -->
+          <text x="30" y="62" fill="#4A6560" font-family="JetBrains Mono" font-size="9" letter-spacing="0.1em">22:47 · Casablanca</text>
+          <text x="30" y="80" fill="#F2F6F4" font-family="Syne" font-size="14" font-weight="800">Good evening, Abir.</text>
+          <text x="30" y="95" fill="#7A9690" font-family="JetBrains Mono" font-size="8">3 lights on · 22°C · Locked</text>
+          <!-- Device cards -->
+          <rect x="22" y="112" width="90" height="80" rx="12" fill="rgba(27,153,139,0.1)" stroke="rgba(27,153,139,0.2)" stroke-width="0.8"/>
+          <text x="30" y="133" fill="#2BBFAE" font-size="18">💡</text>
+          <text x="30" y="155" fill="#F2F6F4" font-family="Syne" font-size="10" font-weight="700">Living Room</text>
+          <text x="30" y="167" fill="#7A9690" font-family="JetBrains Mono" font-size="8">ON · 60%</text>
+          <rect x="128" y="112" width="90" height="80" rx="12" fill="rgba(244,162,97,0.08)" stroke="rgba(244,162,97,0.15)" stroke-width="0.8"/>
+          <text x="136" y="133" fill="#F4A261" font-size="18">🔒</text>
+          <text x="136" y="155" fill="#F2F6F4" font-family="Syne" font-size="10" font-weight="700">Front Door</text>
+          <text x="136" y="167" fill="#7A9690" font-family="JetBrains Mono" font-size="8">LOCKED</text>
+          <!-- Thermostat -->
+          <rect x="22" y="202" width="196" height="70" rx="12" fill="rgba(27,153,139,0.07)" stroke="rgba(27,153,139,0.15)" stroke-width="0.8"/>
+          <text x="32" y="223" fill="#4A6560" font-family="JetBrains Mono" font-size="8" letter-spacing="0.1em">CLIMATE</text>
+          <text x="32" y="248" fill="#F2F6F4" font-family="Syne" font-size="28" font-weight="800" letter-spacing="-1">22°C</text>
+          <text x="120" y="238" fill="#2BBFAE" font-family="JetBrains Mono" font-size="9">Comfort Mode</text>
+          <text x="120" y="252" fill="#4A6560" font-family="JetBrains Mono" font-size="8">Target: 22°C</text>
+          <!-- Scenes -->
+          <text x="30" y="296" fill="#4A6560" font-family="JetBrains Mono" font-size="8" letter-spacing="0.12em">SCENES</text>
+          <rect x="22" y="306" width="42" height="36" rx="8" fill="rgba(27,153,139,0.15)" stroke="rgba(27,153,139,0.3)" stroke-width="0.8"/>
+          <text x="43" y="329" text-anchor="middle" fill="#F2F6F4" font-size="14">🌅</text>
+          <rect x="70" y="306" width="42" height="36" rx="8" fill="rgba(27,153,139,0.08)" stroke="rgba(27,153,139,0.15)" stroke-width="0.8"/>
+          <text x="91" y="329" text-anchor="middle" fill="#F2F6F4" font-size="14">🎬</text>
+          <rect x="118" y="306" width="42" height="36" rx="8" fill="rgba(27,153,139,0.08)" stroke="rgba(27,153,139,0.15)" stroke-width="0.8"/>
+          <text x="139" y="329" text-anchor="middle" fill="#F2F6F4" font-size="14">🌙</text>
+          <rect x="166" y="306" width="42" height="36" rx="8" fill="rgba(27,153,139,0.08)" stroke="rgba(27,153,139,0.15)" stroke-width="0.8"/>
+          <text x="187" y="329" text-anchor="middle" fill="#F2F6F4" font-size="14">✨</text>
+          <!-- Bottom nav -->
+          <rect x="22" y="422" width="196" height="38" rx="10" fill="rgba(27,153,139,0.05)" stroke="rgba(27,153,139,0.1)" stroke-width="0.8"/>
+          <text x="55" y="446" text-anchor="middle" fill="#2BBFAE" font-size="16">🏠</text>
+          <text x="93" y="446" text-anchor="middle" fill="#4A6560" font-size="16">💡</text>
+          <text x="130" y="446" text-anchor="middle" fill="#4A6560" font-size="16">🌡</text>
+          <text x="168" y="446" text-anchor="middle" fill="#4A6560" font-size="16">⚙️</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="cat-section-head reveal">
+      <span class="ey">Features</span>
+      <h2>Everything. Beautifully simple.</h2>
+    </div>
+    <div class="feat-grid reveal d1">
+      <div class="feat-tile"><div class="feat-ico">🏠</div><div class="feat-t">Room Control</div><div class="feat-d">Control every device in every room individually or all at once with a single tap.</div></div>
+      <div class="feat-tile"><div class="feat-ico">🎭</div><div class="feat-t">Scenes & Routines</div><div class="feat-d">Create custom scenes. Morning, Cinema, Dinner, Away — one tap changes everything.</div></div>
+      <div class="feat-tile"><div class="feat-ico">⚡</div><div class="feat-t">Energy Monitor</div><div class="feat-d">Real-time consumption tracking. Monthly reports. See exactly what's using power.</div></div>
+      <div class="feat-tile"><div class="feat-ico">🔮</div><div class="feat-t">AI Automation</div><div class="feat-d">AYDAR learns your patterns and automates your home intelligently over time.</div></div>
+      <div class="feat-tile"><div class="feat-ico">👥</div><div class="feat-t">Family Sharing</div><div class="feat-d">Invite family members. Set permissions per person, per room, per device.</div></div>
+      <div class="feat-tile"><div class="feat-ico">🌍</div><div class="feat-t">3 Languages</div><div class="feat-d">Full Darija, French and Arabic interface. Switch anytime in settings.</div></div>
+    </div>
+
+    <!-- Waitlist -->
+    <div class="waitlist-wrap reveal" style="margin-top:80px" id="waitlist">
+      <div class="wl-inner">
+        <span class="ey">Coming Soon · iOS & Android</span>
+        <h2 style="font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-1.5px;margin-bottom:12px">Be first to know.</h2>
+        <p class="sb" style="max-width:440px;margin:0 auto;text-align:center">The AYDAR App is in development. Join the waitlist and we'll notify you on launch day.</p>
+        <div class="wl-row">
+          <input class="wl-input" type="email" placeholder="your@email.com" id="wl-email">
+          <button class="btn-p" onclick="handleWL()">Join waitlist →</button>
+        </div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);margin-top:14px;letter-spacing:.05em" id="wl-msg"> </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="si">
+    <h2>AYDAR hardware. AYDAR app. One ecosystem.</h2>
+    <p>Every AYDAR device works seamlessly with the app from day one.</p>
+    <div class="cta-acts"><a href="index.html#contact" class="btn-p">Contact us</a><a href="index.html" class="btn-g">← Back to AYDAR</a></div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<button class="btt" id="btt">↑</button>
+<script src="shared.js"></script>
+<script>
+injectNav('App');injectFooter();initScroll();initReveal();
+function handleWL(){
+  const e=document.getElementById('wl-email').value.trim();
+  if(!e){return}
+  document.getElementById('wl-msg').textContent='✦ You\'re on the list. Shukran!';
+  document.getElementById('wl-email').value='';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate Control — AYDAR</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.cat-hero{min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 80px;position:relative;overflow:hidden;margin-top:var(--nav-h)}
+.cat-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 40% 25%,rgba(27,153,139,.16) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 80% 70%,rgba(43,191,174,.08) 0%,transparent 55%),var(--bg)}
+.cat-hero-pat{position:absolute;inset:0;opacity:.05}
+.wave-glow{position:absolute;top:0;right:0;width:50%;height:100%;background:radial-gradient(ellipse at 80% 40%,rgba(27,153,139,.1) 0%,transparent 60%);pointer-events:none}
+.cat-hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-link{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--teal-l)}
+.cat-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(60px,11vw,130px);letter-spacing:-4px;line-height:.92;margin-bottom:24px;background:linear-gradient(155deg,var(--white) 30%,var(--teal-l) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cat-hero-sub{font-size:clamp(17px,2vw,22px);font-weight:300;font-style:italic;color:var(--muted);max-width:580px;margin-bottom:36px;line-height:1.7}
+.cat-hero-acts{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.catalog-section{padding:80px 0 120px;background:var(--bg)}
+.cat-section-head{margin-bottom:52px}
+.cat-section-head h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,4vw,48px);letter-spacing:-1.5px;margin-bottom:10px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:60px}
+.cat-grid-2{grid-template-columns:repeat(2,1fr)}
+.prod-tile{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative;transition:border-color .3s,transform .4s}
+.prod-tile:hover{border-color:var(--border-h);transform:translateY(-5px)}
+.prod-tile::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(27,153,139,.07) 0%,transparent 55%);opacity:0;transition:opacity .4s;pointer-events:none}
+.prod-tile:hover::after{opacity:1}
+.tile-img{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.tile-body{padding:24px}
+.tile-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-l);margin-bottom:8px;display:block}
+.tile-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px;line-height:1.2}
+.tile-desc{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:16px}
+.tile-price{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--white);display:flex;align-items:center;justify-content:space-between}
+.price-val{color:var(--teal-l)}
+.tile-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+
+/* Thermostat showcase */
+.thermo-showcase{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:60px;position:relative;overflow:hidden}
+.thermo-showcase::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--teal-l))}
+.thermo-visual{display:flex;flex-direction:column;align-items:center;gap:20px}
+.thermo-ring{width:200px;height:200px;position:relative;margin:0 auto}
+.thermo-ring svg{filter:drop-shadow(0 0 30px rgba(27,153,139,.35))}
+.thermo-info h3{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:12px}
+.thermo-info p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:20px;font-weight:300}
+
+/* Climate modes */
+.modes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:48px}
+.mode-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 16px;text-align:center;transition:border-color .3s,background .3s;cursor:pointer}
+.mode-card:hover{border-color:var(--border-h);background:var(--card2)}
+.mode-icon{font-size:26px;margin-bottom:10px}
+.mode-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px}
+.mode-temp{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal-l)}
+.cta-band{background:var(--card);border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);padding:60px 0;text-align:center;position:relative;overflow:hidden;margin-top:80px}
+.cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.07) 0%,transparent 70%)}
+.cta-band h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;position:relative;z-index:1}
+.cta-band p{font-size:17px;color:var(--muted);font-weight:300;font-style:italic;margin-bottom:32px;position:relative;z-index:1}
+.cta-acts{display:flex;gap:16px;justify-content:center;position:relative;z-index:1}
+@media(max-width:900px){.cat-grid,.cat-grid-2{grid-template-columns:repeat(2,1fr)}.thermo-showcase{grid-template-columns:1fr}.modes-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cat-grid,.cat-grid-2{grid-template-columns:1fr}.modes-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav id="nav"></nav>
+
+<section class="cat-hero">
+  <div class="cat-hero-bg"></div>
+  <div class="cat-hero-pat pat-m"></div>
+  <div class="wave-glow"></div>
+  <div class="si">
+    <div class="cat-hero-eyebrow">
+      <a href="index.html" class="back-link">← Back</a>
+      <span style="color:var(--dim)">·</span>
+      <span class="ey" style="margin:0">Climate Control</span>
+    </div>
+    <h1>Climate<br>Catalog.</h1>
+    <p class="cat-hero-sub">Smart thermostats, sensors and AC controllers. The perfect temperature, automatically — winter heat or summer cool.</p>
+    <div class="cat-hero-acts">
+      <a href="index.html#contact" class="btn-p">Get a quote</a>
+      <a href="#catalog" class="btn-g">Browse catalog →</a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker"><div class="tt"><span class="ti"><span>✦</span> Smart Thermostats</span><span class="ti"><span>✦</span> AC IR Controllers</span><span class="ti"><span>✦</span> Temperature Sensors</span><span class="ti"><span>✦</span> Opentherm</span><span class="ti"><span>✦</span> Energy Monitoring</span><span class="ti"><span>✦</span> Auto Scheduling</span><span class="ti"><span>✦</span> Smart Thermostats</span><span class="ti"><span>✦</span> AC IR Controllers</span><span class="ti"><span>✦</span> Temperature Sensors</span><span class="ti"><span>✦</span> Opentherm</span><span class="ti"><span>✦</span> Energy Monitoring</span><span class="ti"><span>✦</span> Auto Scheduling</span></div></div>
+
+<section class="catalog-section" id="catalog">
+  <div class="si">
+
+    <!-- Thermostat showcase -->
+    <div class="thermo-showcase reveal">
+      <div class="thermo-visual">
+        <div class="thermo-ring">
+          <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="100" r="90" fill="rgba(27,153,139,0.05)" stroke="rgba(27,153,139,0.2)" stroke-width="1"/>
+            <circle cx="100" cy="100" r="78" fill="rgba(27,153,139,0.07)" stroke="rgba(27,153,139,0.15)" stroke-width="0.8"/>
+            <path d="M100 22 A78 78 0 1 1 32 134" stroke="#1B998B" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M100 22 A78 78 0 0 1 168 134" stroke="#2BBFAE" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <text x="100" y="92" text-anchor="middle" fill="#F2F6F4" font-family="Syne, sans-serif" font-size="42" font-weight="800" letter-spacing="-2">22</text>
+            <text x="100" y="112" text-anchor="middle" fill="#2BBFAE" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="0.1em">°C · COMFORT</text>
+            <text x="100" y="138" text-anchor="middle" fill="#4A6560" font-family="JetBrains Mono, monospace" font-size="10">Target: 22°C</text>
+          </svg>
+        </div>
+      </div>
+      <div class="thermo-info">
+        <span class="ey">Flagship Product</span>
+        <h3>AYDAR Thermostat T1 Pro</h3>
+        <p>Morocco's most intelligent thermostat. Learns your schedule in 7 days. Opentherm compatibility for efficient boiler control. Energy savings of up to 30%.</p>
+        <div class="tile-badges"><span class="badge badge-teal">Opentherm</span><span class="badge badge-teal">Zigbee + Wi-Fi</span><span class="badge badge-dim">E-ink display</span><span class="badge badge-gold">-30% energy</span></div>
+        <a href="index.html#contact" class="btn-p" style="display:inline-flex;margin-top:8px">Get a quote →</a>
+      </div>
+    </div>
+
+    <!-- Climate modes -->
+    <div class="cat-section-head reveal">
+      <span class="ey">Climate Modes</span>
+      <h2>Your home. Your climate.</h2>
+    </div>
+    <div class="modes-grid reveal d1">
+      <div class="mode-card"><div class="mode-icon">🌅</div><div class="mode-name">Morning</div><div class="mode-temp">19°C · 07:00</div></div>
+      <div class="mode-card"><div class="mode-icon">☀️</div><div class="mode-name">Away</div><div class="mode-temp">16°C · Eco</div></div>
+      <div class="mode-card"><div class="mode-icon">🌙</div><div class="mode-name">Sleep</div><div class="mode-temp">18°C · Quiet</div></div>
+      <div class="mode-card"><div class="mode-icon">🏠</div><div class="mode-name">Home</div><div class="mode-temp">22°C · Comfort</div></div>
+    </div>
+
+    <!-- Products -->
+    <div class="cat-section-head reveal" style="margin-top:48px">
+      <span class="ey">Full Catalog</span>
+      <h2>Every climate product.</h2>
+    </div>
+    <div class="cat-grid reveal d1">
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 40%,rgba(27,153,139,.18) 0%,transparent 60%),#071512">
+          <svg width="90" height="90" viewBox="0 0 90 90" fill="none"><circle cx="45" cy="45" r="36" fill="rgba(27,153,139,0.06)" stroke="#1B998B" stroke-width="1.2"/><circle cx="45" cy="45" r="26" fill="rgba(27,153,139,0.1)" stroke="#1B998B" stroke-width="0.8"/><text x="45" y="50" text-anchor="middle" fill="#2BBFAE" font-family="Syne" font-size="20" font-weight="800">22°</text></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Thermostat · Opentherm</span>
+          <div class="tile-name">T1 Pro Thermostat</div>
+          <div class="tile-desc">Opentherm + on/off. E-ink display. 7-day learning AI. Zigbee + Wi-Fi. Works with all Moroccan boilers.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Opentherm</span><span class="badge badge-gold">AI Learning</span></div>
+          <div class="tile-price"><span>Thermostat</span><span class="price-val">From 680 MAD</span></div>
+        </div>
+      </div>
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 40%,rgba(27,153,139,.12) 0%,transparent 60%),#071512">
+          <svg width="90" height="70" viewBox="0 0 90 70" fill="none"><rect x="15" y="15" width="60" height="40" rx="8" fill="rgba(27,153,139,0.07)" stroke="#1B998B" stroke-width="1.2"/><text x="45" y="38" text-anchor="middle" fill="#2BBFAE" font-family="JetBrains Mono" font-size="11" letter-spacing="0.1em">24°C · COOL</text><circle cx="72" cy="20" r="4" fill="#1B998B" opacity="0.5"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">AC Controller · IR</span>
+          <div class="tile-name">IR Hub AC</div>
+          <div class="tile-desc">Universal IR controller for any split AC unit. Supports 6000+ AC brands. Control from the app or by schedule.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Wi-Fi</span><span class="badge badge-dim">6000+ brands</span></div>
+          <div class="tile-price"><span>IR Controller</span><span class="price-val">From 195 MAD</span></div>
+        </div>
+      </div>
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(43,191,174,.1) 0%,transparent 65%),#071512">
+          <svg width="60" height="80" viewBox="0 0 60 80" fill="none"><rect x="15" y="10" width="30" height="50" rx="8" fill="rgba(27,153,139,0.07)" stroke="#1B998B" stroke-width="1"/><circle cx="30" cy="35" r="10" fill="rgba(27,153,139,0.15)" stroke="#1B998B" stroke-width="0.8"/><text x="30" y="38" text-anchor="middle" fill="#2BBFAE" font-family="JetBrains Mono" font-size="8">22°C</text><rect x="22" y="65" width="16" height="6" rx="2" fill="#1B998B" opacity="0.4"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Temp + Humidity Sensor</span>
+          <div class="tile-name">Sensor TH1</div>
+          <div class="tile-desc">Temperature and humidity monitoring. E-ink display. Perfect for rooms, storage or server areas.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee</span><span class="badge badge-dim">±0.2°C</span></div>
+          <div class="tile-price"><span>Sensor</span><span class="price-val">85 MAD</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="si">
+    <h2>Comfortable all year.</h2>
+    <p>AYDAR handles installation and integration with your existing heating system.</p>
+    <div class="cta-acts"><a href="index.html#contact" class="btn-p">Get a free quote</a><a href="index.html" class="btn-g">← Back to AYDAR</a></div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<button class="btt" id="btt">↑</button>
+<script src="shared.js"></script>
+<script>injectNav('Climate');injectFooter();initScroll();initReveal();</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Lighting — AYDAR</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── CATALOG HERO ── */
+.cat-hero{min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 80px;position:relative;overflow:hidden;margin-top:var(--nav-h)}
+.cat-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(27,153,139,.18) 0%,transparent 65%),radial-gradient(ellipse 50% 50% at 80% 80%,rgba(43,191,174,.07) 0%,transparent 55%),var(--bg)}
+.cat-hero-pat{position:absolute;inset:0;opacity:.05}
+.bulb-ring{position:absolute;top:14%;left:50%;transform:translateX(-50%);display:flex;gap:60px;pointer-events:none;opacity:.08}
+.cat-hero .si{position:relative;z-index:2}
+.cat-hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-link{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--teal-l)}
+.cat-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(60px,11vw,130px);letter-spacing:-4px;line-height:.92;margin-bottom:24px;background:linear-gradient(155deg,var(--white) 30%,var(--teal) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cat-hero-sub{font-size:clamp(17px,2vw,22px);font-weight:300;font-style:italic;color:var(--muted);max-width:580px;margin-bottom:36px;line-height:1.7}
+.cat-hero-acts{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+
+/* glowing bulbs */
+.bulb-glow{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.bg1{width:300px;height:300px;background:radial-gradient(circle,rgba(27,153,139,.14),transparent 70%);top:5%;left:60%;animation:gp 4s ease-in-out infinite}
+.bg2{width:180px;height:180px;background:radial-gradient(circle,rgba(43,191,174,.1),transparent 70%);top:30%;right:10%;animation:gp 6s ease-in-out infinite .8s}
+.bg3{width:140px;height:140px;background:radial-gradient(circle,rgba(244,162,97,.08),transparent 70%);top:20%;right:25%;animation:gp 5s ease-in-out infinite 1.6s}
+@keyframes gp{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+
+/* ── CATALOG GRID ── */
+.catalog-section{padding:80px 0 120px;background:var(--bg)}
+.cat-section-head{margin-bottom:52px}
+.cat-section-head h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,4vw,48px);letter-spacing:-1.5px;margin-bottom:10px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:60px}
+.cat-grid-2{grid-template-columns:repeat(2,1fr)}
+.cat-grid-4{grid-template-columns:repeat(4,1fr)}
+
+.prod-tile{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative;transition:border-color .3s,transform .4s;cursor:pointer}
+.prod-tile:hover{border-color:var(--border-h);transform:translateY(-5px)}
+.prod-tile::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(27,153,139,.07) 0%,transparent 55%);opacity:0;transition:opacity .4s;pointer-events:none}
+.prod-tile:hover::after{opacity:1}
+.tile-img{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.tile-img-tall{height:280px}
+.tile-body{padding:24px}
+.tile-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-l);margin-bottom:8px;display:block}
+.tile-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px;line-height:1.2}
+.tile-desc{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:16px}
+.tile-price{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--white);display:flex;align-items:center;justify-content:space-between}
+.price-val{color:var(--teal-l)}
+.tile-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tile-cta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal-l);display:flex;align-items:center;gap:5px;transition:gap .2s}
+.tile-cta:hover{gap:9px}
+
+/* ── SPECS SECTION ── */
+.specs-section{padding:80px 0;background:linear-gradient(180deg,var(--bg) 0%,#051b15 100%)}
+.specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.spec-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;position:relative;overflow:hidden}
+.spec-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.spec-card h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.4px;margin-bottom:20px}
+
+/* Feature list */
+.feat-list{list-style:none;margin-top:20px}
+.feat-list li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:.5px solid var(--border);font-size:14px;color:var(--muted);font-weight:300;line-height:1.6}
+.feat-list li:last-child{border-bottom:none}
+.feat-list li::before{content:'✦';color:var(--teal);font-size:10px;margin-top:3px;flex-shrink:0}
+
+/* Scenes showcase */
+.scenes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+.scene-card{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;transition:border-color .3s,background .3s;cursor:pointer}
+.scene-card:hover{border-color:var(--border-h);background:#0d2820}
+.scene-icon{font-size:28px;margin-bottom:10px}
+.scene-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px}
+.scene-desc{font-size:11px;color:var(--dim);font-family:'JetBrains Mono',monospace;letter-spacing:.05em}
+
+/* CTA band */
+.cta-band{background:var(--card);border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);padding:60px 0;text-align:center;position:relative;overflow:hidden;margin-top:80px}
+.cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.08) 0%,transparent 70%)}
+.cta-band h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;position:relative;z-index:1}
+.cta-band p{font-size:17px;color:var(--muted);font-weight:300;font-style:italic;margin-bottom:32px;position:relative;z-index:1}
+.cta-acts{display:flex;gap:16px;justify-content:center;position:relative;z-index:1}
+
+@media(max-width:900px){.cat-grid{grid-template-columns:repeat(2,1fr)}.specs-grid{grid-template-columns:1fr}.cat-grid-4{grid-template-columns:repeat(2,1fr)}.scenes{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cat-grid{grid-template-columns:1fr}.cat-grid-4{grid-template-columns:1fr}.scenes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav id="nav"></nav>
+
+<!-- HERO -->
+<section class="cat-hero">
+  <div class="cat-hero-bg"></div>
+  <div class="cat-hero-pat pat-z"></div>
+  <div class="bulb-glow bg1"></div>
+  <div class="bulb-glow bg2"></div>
+  <div class="bulb-glow bg3"></div>
+
+  <!-- Lanterns row -->
+  <div class="bulb-ring">
+    <svg width="24" height="76" viewBox="0 0 24 76" fill="none"><line x1="12" y1="0" x2="12" y2="15" stroke="#F4A261" stroke-width="1.1"/><ellipse cx="12" cy="47" rx="10" ry="25" fill="none" stroke="#F4A261" stroke-width="0.8"/><ellipse cx="12" cy="38" rx="6" ry="8" fill="#F4A261" opacity="0.22"/></svg>
+    <svg width="24" height="88" viewBox="0 0 24 88" fill="none"><line x1="12" y1="0" x2="12" y2="12" stroke="#F4A261" stroke-width="1.1"/><ellipse cx="12" cy="54" rx="11" ry="29" fill="none" stroke="#F4A261" stroke-width="0.8"/><ellipse cx="12" cy="42" rx="7" ry="10" fill="#F4A261" opacity="0.22"/></svg>
+    <svg width="24" height="76" viewBox="0 0 24 76" fill="none"><line x1="12" y1="0" x2="12" y2="15" stroke="#F4A261" stroke-width="1.1"/><ellipse cx="12" cy="47" rx="10" ry="25" fill="none" stroke="#F4A261" stroke-width="0.8"/><ellipse cx="12" cy="38" rx="6" ry="8" fill="#F4A261" opacity="0.22"/></svg>
+    <svg width="24" height="88" viewBox="0 0 24 88" fill="none"><line x1="12" y1="0" x2="12" y2="12" stroke="#F4A261" stroke-width="1.1"/><ellipse cx="12" cy="54" rx="11" ry="29" fill="none" stroke="#F4A261" stroke-width="0.8"/><ellipse cx="12" cy="42" rx="7" ry="10" fill="#F4A261" opacity="0.22"/></svg>
+    <svg width="24" height="76" viewBox="0 0 24 76" fill="none"><line x1="12" y1="0" x2="12" y2="15" stroke="#F4A261" stroke-width="1.1"/><ellipse cx="12" cy="47" rx="10" ry="25" fill="none" stroke="#F4A261" stroke-width="0.8"/><ellipse cx="12" cy="38" rx="6" ry="8" fill="#F4A261" opacity="0.22"/></svg>
+  </div>
+
+  <div class="si">
+    <div class="cat-hero-eyebrow">
+      <a href="index.html" class="back-link">← Back</a>
+      <span style="color:var(--dim)">·</span>
+      <span class="ey" style="margin:0">Smart Lighting</span>
+    </div>
+    <h1>Lighting<br>Catalog.</h1>
+    <p class="cat-hero-sub">Every bulb, strip, switch and scene. AYDAR lighting learns your home and adapts automatically — from morning to midnight.</p>
+    <div class="cat-hero-acts">
+      <a href="index.html#contact" class="btn-p">Get a quote</a>
+      <a href="#catalog" class="btn-g">Browse catalog →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker"><div class="tt"><span class="ti"><span>✦</span> E27 Smart Bulbs</span><span class="ti"><span>✦</span> GU10 Spotlights</span><span class="ti"><span>✦</span> LED Strips RGBIC</span><span class="ti"><span>✦</span> Smart Switches</span><span class="ti"><span>✦</span> Dimmers</span><span class="ti"><span>✦</span> Matter Ready</span><span class="ti"><span>✦</span> Zigbee 3.0</span><span class="ti"><span>✦</span> Voice Control</span><span class="ti"><span>✦</span> E27 Smart Bulbs</span><span class="ti"><span>✦</span> GU10 Spotlights</span><span class="ti"><span>✦</span> LED Strips RGBIC</span><span class="ti"><span>✦</span> Smart Switches</span><span class="ti"><span>✦</span> Dimmers</span><span class="ti"><span>✦</span> Matter Ready</span><span class="ti"><span>✦</span> Zigbee 3.0</span><span class="ti"><span>✦</span> Voice Control</span></div></div>
+
+<!-- CATALOG -->
+<section class="catalog-section" id="catalog">
+  <div class="si">
+
+    <!-- Smart Bulbs -->
+    <div class="cat-section-head reveal">
+      <span class="ey">01 · Smart Bulbs</span>
+      <h2>Intelligent illumination.</h2>
+      <p class="sb" style="max-width:500px">16 million colors. Tunable white 2700K–6500K. Every bulb remembers your last setting.</p>
+    </div>
+    <div class="cat-grid reveal d1">
+
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 30%,rgba(27,153,139,.3) 0%,transparent 65%),#071512">
+          <svg width="80" height="100" viewBox="0 0 80 100" fill="none"><ellipse cx="40" cy="38" rx="30" ry="32" fill="rgba(27,153,139,0.15)" stroke="#1B998B" stroke-width="1.2"/><ellipse cx="40" cy="38" rx="22" ry="24" fill="rgba(27,153,139,0.2)"/><rect x="28" y="68" width="24" height="8" rx="3" fill="#1B998B" opacity="0.5"/><rect x="30" y="76" width="20" height="6" rx="2" fill="#1B998B" opacity="0.4"/><line x1="40" y1="82" x2="40" y2="92" stroke="#1B998B" stroke-width="2" opacity="0.5"/><circle cx="40" cy="38" r="10" fill="#2BBFAE" opacity="0.5"/></svg>
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 35%,rgba(43,191,174,.25) 0%,transparent 50%)"></div>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">E27 · RGB+W</span>
+          <div class="tile-name">AYDAR Glow E27</div>
+          <div class="tile-desc">806 lm, 9W, 16M colors. Tunable white 2700K–6500K. Zigbee 3.0 + Matter. Instant on, no flicker.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee 3.0</span><span class="badge badge-teal">Matter</span><span class="badge badge-dim">9W · 806lm</span></div>
+          <div class="tile-price"><span>Smart Bulb</span><span class="price-val">From 89 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 30%,rgba(244,162,97,.2) 0%,transparent 65%),#0e0a04">
+          <svg width="80" height="100" viewBox="0 0 80 100" fill="none"><ellipse cx="40" cy="38" rx="28" ry="30" fill="rgba(244,162,97,0.12)" stroke="#F4A261" stroke-width="1.1"/><ellipse cx="40" cy="38" rx="20" ry="22" fill="rgba(244,162,97,0.18)"/><rect x="28" y="66" width="24" height="8" rx="3" fill="#F4A261" opacity="0.45"/><rect x="30" y="74" width="20" height="6" rx="2" fill="#F4A261" opacity="0.35"/><line x1="40" y1="80" x2="40" y2="92" stroke="#F4A261" stroke-width="2" opacity="0.5"/><circle cx="40" cy="38" r="10" fill="#F4A261" opacity="0.5"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">GU10 · Warm White</span>
+          <div class="tile-name">AYDAR Spot GU10</div>
+          <div class="tile-desc">345 lm, 4.5W spotlight. Perfect for recessed lighting and accent illumination. 36° beam angle.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee 3.0</span><span class="badge badge-gold">Warm 2700K</span><span class="badge badge-dim">4.5W</span></div>
+          <div class="tile-price"><span>Spotlight</span><span class="price-val">From 65 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img" style="background:linear-gradient(135deg,rgba(27,153,139,.15) 0%,rgba(43,191,174,.08) 50%,rgba(244,162,97,.1) 100%),#071512">
+          <svg width="100" height="80" viewBox="0 0 100 80" fill="none">
+            <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1B998B" stop-opacity="0.8"/><stop offset="50%" stop-color="#2BBFAE" stop-opacity="0.9"/><stop offset="100%" stop-color="#F4A261" stop-opacity="0.8"/></linearGradient></defs>
+            <rect x="10" y="30" width="80" height="18" rx="9" fill="url(#sg)" opacity="0.6"/>
+            <rect x="10" y="30" width="80" height="18" rx="9" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.8"/>
+            <circle cx="50" cy="39" r="6" fill="white" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">LED Strip · RGBIC</span>
+          <div class="tile-name">AYDAR Strip Pro</div>
+          <div class="tile-desc">5m, 60 LEDs/m, RGBIC (multicolor segments). Self-adhesive, cuttable. TV backlight, coves, cabinets.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Wi-Fi + BT</span><span class="badge badge-gold">RGBIC</span><span class="badge badge-dim">5m</span></div>
+          <div class="tile-price"><span>LED Strip</span><span class="price-val">From 180 MAD</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Switches & Controls -->
+    <div class="cat-section-head reveal" style="margin-top:32px">
+      <span class="ey">02 · Switches & Controls</span>
+      <h2>Touch. Voice. App.</h2>
+      <p class="sb" style="max-width:500px">Replace any wall switch. No neutral wire required on most models. Works with existing wiring.</p>
+    </div>
+    <div class="cat-grid cat-grid-4 reveal d1">
+
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.12) 0%,transparent 65%),#071512">
+          <svg width="60" height="90" viewBox="0 0 60 90" fill="none"><rect x="8" y="8" width="44" height="74" rx="8" fill="rgba(27,153,139,0.08)" stroke="#1B998B" stroke-width="1"/><rect x="16" y="22" width="28" height="18" rx="4" fill="rgba(27,153,139,0.15)" stroke="#1B998B" stroke-width="0.7"/><circle cx="30" cy="62" r="8" fill="none" stroke="#1B998B" stroke-width="0.8"/><circle cx="30" cy="62" r="3" fill="#1B998B" opacity="0.5"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">1-Gang Switch</span>
+          <div class="tile-name">Switch S1</div>
+          <div class="tile-desc">Single gang, touch panel, Zigbee. No neutral needed.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee</span><span class="badge badge-dim">No neutral</span></div>
+          <div class="tile-price"><span>Switch</span><span class="price-val">120 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.12) 0%,transparent 65%),#071512">
+          <svg width="80" height="90" viewBox="0 0 80 90" fill="none"><rect x="8" y="8" width="64" height="74" rx="8" fill="rgba(27,153,139,0.08)" stroke="#1B998B" stroke-width="1"/><rect x="16" y="22" width="18" height="18" rx="4" fill="rgba(27,153,139,0.15)" stroke="#1B998B" stroke-width="0.7"/><rect x="46" y="22" width="18" height="18" rx="4" fill="rgba(27,153,139,0.1)" stroke="#1B998B" stroke-width="0.7"/><circle cx="40" cy="62" r="8" fill="none" stroke="#1B998B" stroke-width="0.8"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">2-Gang Switch</span>
+          <div class="tile-name">Switch S2</div>
+          <div class="tile-desc">Dual gang, glass panel, premium feel.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee</span></div>
+          <div class="tile-price"><span>Switch</span><span class="price-val">160 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(244,162,97,.1) 0%,transparent 65%),#0e0a04">
+          <svg width="60" height="90" viewBox="0 0 60 90" fill="none"><rect x="8" y="8" width="44" height="74" rx="8" fill="rgba(244,162,97,0.07)" stroke="#F4A261" stroke-width="1"/><rect x="20" y="30" width="20" height="30" rx="10" fill="rgba(244,162,97,0.1)" stroke="#F4A261" stroke-width="0.7"/><circle cx="30" cy="45" r="5" fill="#F4A261" opacity="0.4"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Rotary Dimmer</span>
+          <div class="tile-name">Dimmer D1</div>
+          <div class="tile-desc">Smooth dimming 1–100%. Works with LED and halogen.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee</span><span class="badge badge-gold">Dimmable</span></div>
+          <div class="tile-price"><span>Dimmer</span><span class="price-val">195 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.12) 0%,transparent 65%),#071512">
+          <svg width="70" height="90" viewBox="0 0 70 90" fill="none"><rect x="10" y="15" width="50" height="60" rx="10" fill="rgba(27,153,139,0.08)" stroke="#1B998B" stroke-width="1"/><circle cx="35" cy="45" r="16" fill="none" stroke="#1B998B" stroke-width="1.2"/><path d="M35 29 L35 45 L48 38" stroke="#2BBFAE" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Scene Controller</span>
+          <div class="tile-name">Remote R4</div>
+          <div class="tile-desc">4-button scene remote. Battery powered, wall-mountable.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee</span><span class="badge badge-dim">Battery</span></div>
+          <div class="tile-price"><span>Remote</span><span class="price-val">145 MAD</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scenes -->
+    <div class="cat-section-head reveal" style="margin-top:48px">
+      <span class="ey">03 · Scenes & Automation</span>
+      <h2>One tap. Perfect atmosphere.</h2>
+      <p class="sb" style="max-width:500px">Pre-built scenes you can activate in the AYDAR app — or customize your own.</p>
+    </div>
+    <div class="scenes reveal d1">
+      <div class="scene-card"><div class="scene-icon">🌅</div><div class="scene-name">Good Morning</div><div class="scene-desc">Warm 3000K · 40%</div></div>
+      <div class="scene-card"><div class="scene-icon">☀️</div><div class="scene-name">Daytime</div><div class="scene-desc">Daylight 5500K · 100%</div></div>
+      <div class="scene-card"><div class="scene-icon">🎬</div><div class="scene-name">Cinema</div><div class="scene-desc">Bias teal · 15%</div></div>
+      <div class="scene-card"><div class="scene-icon">🍽️</div><div class="scene-name">Dinner</div><div class="scene-desc">Amber 2700K · 60%</div></div>
+      <div class="scene-card"><div class="scene-icon">🌙</div><div class="scene-name">Night</div><div class="scene-desc">Sunset 1800K · 5%</div></div>
+      <div class="scene-card"><div class="scene-icon">✨</div><div class="scene-name">Custom</div><div class="scene-desc">Your own scene</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="si">
+    <h2>Ready to illuminate your home?</h2>
+    <p>AYDAR technicians handle delivery, installation and setup — across Morocco.</p>
+    <div class="cta-acts">
+      <a href="index.html#contact" class="btn-p">Get a free quote</a>
+      <a href="index.html" class="btn-g">← Back to AYDAR</a>
+    </div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<button class="btt" id="btt">↑</button>
+
+<script src="shared.js"></script>
+<script>injectNav('Lighting');injectFooter();initScroll();initReveal();</script>
+</body>
+</html>

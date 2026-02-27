@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security & Access — AYDAR</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.cat-hero{min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 80px;position:relative;overflow:hidden;margin-top:var(--nav-h)}
+.cat-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(244,162,97,.14) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 80% 70%,rgba(27,153,139,.08) 0%,transparent 55%),var(--bg)}
+.cat-hero-pat{position:absolute;inset:0;opacity:.05}
+.shield-glow{position:absolute;top:5%;right:12%;width:340px;height:340px;background:radial-gradient(circle,rgba(244,162,97,.08),transparent 70%);border-radius:50%;filter:blur(80px);pointer-events:none;animation:sg 7s ease-in-out infinite}
+@keyframes sg{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.9;transform:scale(1.08)}}
+.cat-hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-link{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--teal-l)}
+.cat-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(60px,11vw,130px);letter-spacing:-4px;line-height:.92;margin-bottom:24px;background:linear-gradient(155deg,var(--white) 30%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cat-hero-sub{font-size:clamp(17px,2vw,22px);font-weight:300;font-style:italic;color:var(--muted);max-width:580px;margin-bottom:36px;line-height:1.7}
+.cat-hero-acts{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.catalog-section{padding:80px 0 120px;background:var(--bg)}
+.cat-section-head{margin-bottom:52px}
+.cat-section-head h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,4vw,48px);letter-spacing:-1.5px;margin-bottom:10px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:60px}
+.cat-grid-2{grid-template-columns:repeat(2,1fr)}
+.prod-tile{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative;transition:border-color .3s,transform .4s}
+.prod-tile:hover{border-color:var(--border-h);transform:translateY(-5px)}
+.prod-tile::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(244,162,97,.05) 0%,transparent 55%);opacity:0;transition:opacity .4s;pointer-events:none}
+.prod-tile:hover::after{opacity:1}
+.tile-img{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.tile-body{padding:24px}
+.tile-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block}
+.tile-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px;line-height:1.2}
+.tile-desc{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:16px}
+.tile-price{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--white);display:flex;align-items:center;justify-content:space-between}
+.price-val{color:var(--gold)}
+.tile-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.security-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px}
+.sec-stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;transition:border-color .3s}
+.sec-stat:hover{border-color:var(--border-h)}
+.sec-num{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-1px;color:var(--gold);display:block;margin-bottom:4px}
+.sec-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.cta-band{background:var(--card);border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);padding:60px 0;text-align:center;position:relative;overflow:hidden;margin-top:80px}
+.cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(244,162,97,.06) 0%,transparent 70%)}
+.cta-band h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;position:relative;z-index:1}
+.cta-band p{font-size:17px;color:var(--muted);font-weight:300;font-style:italic;margin-bottom:32px;position:relative;z-index:1}
+.cta-acts{display:flex;gap:16px;justify-content:center;position:relative;z-index:1}
+@media(max-width:900px){.cat-grid,.cat-grid-2{grid-template-columns:repeat(2,1fr)}.security-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cat-grid,.cat-grid-2{grid-template-columns:1fr}.security-strip{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav id="nav"></nav>
+
+<section class="cat-hero">
+  <div class="cat-hero-bg"></div>
+  <div class="cat-hero-pat pat-z"></div>
+  <div class="shield-glow"></div>
+  <div class="si">
+    <div class="cat-hero-eyebrow">
+      <a href="index.html" class="back-link">← Back</a>
+      <span style="color:var(--dim)">·</span>
+      <span class="ey" style="margin:0;color:var(--gold)">Security & Access</span>
+    </div>
+    <h1>Security<br>Catalog.</h1>
+    <p class="cat-hero-sub">Smart locks, cameras, sensors and doorbells. Every entry point, always in your control — from the AYDAR app, anywhere.</p>
+    <div class="cat-hero-acts">
+      <a href="index.html#contact" class="btn-p">Get a quote</a>
+      <a href="#catalog" class="btn-g">Browse catalog →</a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker"><div class="tt"><span class="ti"><span>✦</span> Smart Locks</span><span class="ti"><span>✦</span> Video Doorbell</span><span class="ti"><span>✦</span> IP Cameras</span><span class="ti"><span>✦</span> Motion Sensors</span><span class="ti"><span>✦</span> Door & Window Sensors</span><span class="ti"><span>✦</span> Real-time Alerts</span><span class="ti"><span>✦</span> Smart Locks</span><span class="ti"><span>✦</span> Video Doorbell</span><span class="ti"><span>✦</span> IP Cameras</span><span class="ti"><span>✦</span> Motion Sensors</span><span class="ti"><span>✦</span> Door & Window Sensors</span><span class="ti"><span>✦</span> Real-time Alerts</span></div></div>
+
+<section class="catalog-section" id="catalog">
+  <div class="si">
+
+    <div class="security-strip reveal">
+      <div class="sec-stat"><span class="sec-num">24/7</span><span class="sec-lbl">Monitoring</span></div>
+      <div class="sec-stat"><span class="sec-num">AES</span><span class="sec-lbl">Encryption</span></div>
+      <div class="sec-stat"><span class="sec-num">4K</span><span class="sec-lbl">Camera resolution</span></div>
+      <div class="sec-stat"><span class="sec-num">IP65</span><span class="sec-lbl">Weatherproof</span></div>
+    </div>
+
+    <!-- Smart Locks -->
+    <div class="cat-section-head reveal" style="margin-top:60px">
+      <span class="ey">01 · Smart Locks</span>
+      <h2>Keys are optional.</h2>
+      <p class="sb" style="max-width:500px">Fingerprint, PIN, card, app or key. Five ways in — one way to control them all.</p>
+    </div>
+    <div class="cat-grid cat-grid-2 reveal d1">
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 40%,rgba(244,162,97,.2) 0%,transparent 60%),#0e0a04">
+          <svg width="80" height="110" viewBox="0 0 80 110" fill="none"><rect x="20" y="38" width="40" height="52" rx="6" fill="rgba(244,162,97,0.08)" stroke="#F4A261" stroke-width="1.2"/><path d="M28 38 C28 20 52 20 52 38" fill="none" stroke="#F4A261" stroke-width="1.5"/><circle cx="40" cy="67" r="8" fill="none" stroke="#F4A261" stroke-width="1.2"/><rect x="37" y="67" width="6" height="10" rx="2" fill="#F4A261" opacity="0.5"/><circle cx="40" cy="67" r="3" fill="#F4A261" opacity="0.6"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Smart Lock · Fingerprint</span>
+          <div class="tile-name">AYDAR Lock Pro</div>
+          <div class="tile-desc">5-in-1 access: fingerprint, PIN, NFC card, app unlock, and physical key backup. 200 fingerprint capacity. Auto-lock. Low battery alert. Fits standard Moroccan doors.</div>
+          <div class="tile-badges"><span class="badge badge-gold">Fingerprint</span><span class="badge badge-teal">Zigbee</span><span class="badge badge-dim">IP44</span></div>
+          <div class="tile-price"><span>Smart Lock</span><span class="price-val">From 890 MAD</span></div>
+        </div>
+      </div>
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 40%,rgba(27,153,139,.15) 0%,transparent 60%),#071512">
+          <svg width="80" height="110" viewBox="0 0 80 110" fill="none"><rect x="18" y="38" width="44" height="52" rx="6" fill="rgba(27,153,139,0.08)" stroke="#1B998B" stroke-width="1.2"/><path d="M26 38 C26 20 54 20 54 38" fill="none" stroke="#1B998B" stroke-width="1.5"/><rect x="28" y="56" width="24" height="14" rx="4" fill="rgba(27,153,139,0.15)" stroke="#1B998B" stroke-width="0.8"/><circle cx="31" cy="63" r="2" fill="#1B998B" opacity="0.6"/><circle cx="40" cy="63" r="2" fill="#1B998B" opacity="0.6"/><circle cx="49" cy="63" r="2" fill="#1B998B" opacity="0.6"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Smart Lock · Keypad</span>
+          <div class="tile-name">AYDAR Lock Slim</div>
+          <div class="tile-desc">Slim profile keypad lock. PIN + app + physical key. Anti-peep code feature. Ideal for interior doors, storage rooms, offices.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee</span><span class="badge badge-dim">PIN + Key</span></div>
+          <div class="tile-price"><span>Smart Lock</span><span class="price-val">From 540 MAD</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cameras -->
+    <div class="cat-section-head reveal" style="margin-top:32px">
+      <span class="ey">02 · Cameras & Doorbells</span>
+      <h2>See everything.</h2>
+      <p class="sb" style="max-width:500px">Live view, motion recording, two-way audio. Night vision as standard. All stored locally or in the AYDAR cloud.</p>
+    </div>
+    <div class="cat-grid reveal d1">
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 30%,rgba(27,153,139,.12) 0%,transparent 60%),#071512">
+          <svg width="90" height="70" viewBox="0 0 90 70" fill="none"><rect x="15" y="15" width="50" height="38" rx="6" fill="rgba(27,153,139,0.08)" stroke="#1B998B" stroke-width="1.2"/><circle cx="40" cy="34" r="12" fill="rgba(27,153,139,0.12)" stroke="#1B998B" stroke-width="1"/><circle cx="40" cy="34" r="6" fill="rgba(27,153,139,0.25)"/><circle cx="40" cy="34" r="2" fill="#2BBFAE"/><path d="M65 22 L78 16 L78 52 L65 46Z" fill="rgba(27,153,139,0.12)" stroke="#1B998B" stroke-width="0.8"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Indoor Camera · 1080p</span>
+          <div class="tile-name">AYDAR Cam Indoor</div>
+          <div class="tile-desc">360° pan-tilt, 1080p, night vision, motion detection, two-way audio. Local storage SD card + optional cloud.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Wi-Fi</span><span class="badge badge-dim">1080p · NV</span><span class="badge badge-dim">SD Card</span></div>
+          <div class="tile-price"><span>Camera</span><span class="price-val">From 320 MAD</span></div>
+        </div>
+      </div>
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 30%,rgba(244,162,97,.12) 0%,transparent 60%),#0e0a04">
+          <svg width="90" height="70" viewBox="0 0 90 70" fill="none"><rect x="15" y="10" width="50" height="48" rx="6" fill="rgba(244,162,97,0.07)" stroke="#F4A261" stroke-width="1.2"/><circle cx="40" cy="34" r="13" fill="rgba(244,162,97,0.1)" stroke="#F4A261" stroke-width="1"/><circle cx="40" cy="34" r="6" fill="rgba(244,162,97,0.2)"/><circle cx="40" cy="34" r="2" fill="#F4A261"/><path d="M65 18 L78 12 L78 56 L65 50Z" fill="rgba(244,162,97,0.1)" stroke="#F4A261" stroke-width="0.8"/><rect x="16" y="48" width="8" height="8" rx="2" fill="#F4A261" opacity="0.4"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Outdoor Camera · 4K</span>
+          <div class="tile-name">AYDAR Cam Outdoor</div>
+          <div class="tile-desc">4K weatherproof outdoor camera. IP65, color night vision, AI person detection. Built for Moroccan sun and dust conditions.</div>
+          <div class="tile-badges"><span class="badge badge-gold">4K</span><span class="badge badge-teal">Wi-Fi</span><span class="badge badge-dim">IP65</span></div>
+          <div class="tile-price"><span>Camera</span><span class="price-val">From 580 MAD</span></div>
+        </div>
+      </div>
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 40%,rgba(27,153,139,.14) 0%,transparent 60%),#071512">
+          <svg width="55" height="100" viewBox="0 0 55 100" fill="none"><rect x="8" y="8" width="40" height="82" rx="10" fill="rgba(27,153,139,0.07)" stroke="#1B998B" stroke-width="1.2"/><circle cx="27" cy="36" r="11" fill="rgba(27,153,139,0.12)" stroke="#1B998B" stroke-width="0.9"/><circle cx="27" cy="36" r="5" fill="rgba(27,153,139,0.25)"/><rect x="14" y="54" width="26" height="16" rx="4" fill="rgba(27,153,139,0.08)" stroke="#1B998B" stroke-width="0.7"/><circle cx="16" cy="76" r="3" fill="#1B998B" opacity="0.5"/><circle cx="27" cy="76" r="3" fill="#1B998B" opacity="0.5"/><circle cx="38" cy="76" r="3" fill="#1B998B" opacity="0.5"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Video Doorbell · Wi-Fi</span>
+          <div class="tile-name">AYDAR Doorbell</div>
+          <div class="tile-desc">1080p video doorbell. See and speak to visitors from anywhere. Motion alerts, night vision, built-in chime.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Wi-Fi</span><span class="badge badge-dim">1080p · Two-way</span></div>
+          <div class="tile-price"><span>Doorbell</span><span class="price-val">From 420 MAD</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sensors -->
+    <div class="cat-section-head reveal" style="margin-top:32px">
+      <span class="ey">03 · Sensors</span>
+      <h2>Every motion. Every entry.</h2>
+    </div>
+    <div class="cat-grid reveal d1">
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.12) 0%,transparent 65%),#071512">
+          <svg width="70" height="80" viewBox="0 0 70 80" fill="none"><ellipse cx="35" cy="40" rx="25" ry="28" fill="rgba(27,153,139,0.06)" stroke="#1B998B" stroke-width="1"/><ellipse cx="35" cy="40" rx="16" ry="18" fill="rgba(27,153,139,0.1)" stroke="#1B998B" stroke-width="0.7"/><ellipse cx="35" cy="40" rx="7" ry="8" fill="rgba(27,153,139,0.2)"/><circle cx="35" cy="40" r="3" fill="#2BBFAE" opacity="0.7"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Motion Sensor · PIR</span>
+          <div class="tile-name">Motion MS1</div>
+          <div class="tile-desc">8m range, 110° angle. Trigger lights, alarms or scenes on movement. Battery powered, 2 year life.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee</span><span class="badge badge-dim">8m · 110°</span></div>
+          <div class="tile-price"><span>Sensor</span><span class="price-val">75 MAD</span></div>
+        </div>
+      </div>
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(244,162,97,.1) 0%,transparent 65%),#0e0a04">
+          <svg width="80" height="50" viewBox="0 0 80 50" fill="none"><rect x="8" y="15" width="30" height="22" rx="5" fill="rgba(244,162,97,0.08)" stroke="#F4A261" stroke-width="1"/><rect x="44" y="15" width="28" height="22" rx="5" fill="rgba(244,162,97,0.06)" stroke="#F4A261" stroke-width="1" stroke-dasharray="3 2"/><line x1="38" y1="26" x2="44" y2="26" stroke="#F4A261" stroke-width="0.8" stroke-dasharray="2 2"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Door / Window Sensor</span>
+          <div class="tile-name">Contact DW1</div>
+          <div class="tile-desc">Magnetic contact sensor. Instant alert when a door or window opens. Ultra-slim, adhesive mount.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee</span><span class="badge badge-dim">2yr battery</span></div>
+          <div class="tile-price"><span>Sensor</span><span class="price-val">55 MAD</span></div>
+        </div>
+      </div>
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.12) 0%,transparent 65%),#071512">
+          <svg width="60" height="80" viewBox="0 0 60 80" fill="none"><rect x="15" y="10" width="30" height="48" rx="8" fill="rgba(27,153,139,0.07)" stroke="#1B998B" stroke-width="1"/><path d="M22 36 L30 24 L38 36 L34 36 L34 50 L26 50 L26 36Z" fill="rgba(27,153,139,0.2)" stroke="#1B998B" stroke-width="0.8"/><circle cx="30" cy="62" r="5" fill="rgba(27,153,139,0.3)" stroke="#1B998B" stroke-width="0.8"/></svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Siren · 110dB</span>
+          <div class="tile-name">Siren S1</div>
+          <div class="tile-desc">Indoor 110dB siren with flashing LED. Triggers automatically from motion or contact sensors.</div>
+          <div class="tile-badges"><span class="badge badge-gold">110dB</span><span class="badge badge-teal">Zigbee</span></div>
+          <div class="tile-price"><span>Siren</span><span class="price-val">145 MAD</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="si">
+    <h2>Secure your home today.</h2>
+    <p>AYDAR installers across Morocco. Professional setup, same week.</p>
+    <div class="cta-acts"><a href="index.html#contact" class="btn-p">Get a free quote</a><a href="index.html" class="btn-g">← Back to AYDAR</a></div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<button class="btt" id="btt">↑</button>
+<script src="shared.js"></script>
+<script>injectNav('Security');injectFooter();initScroll();initReveal();</script>
+</body>
+</html>

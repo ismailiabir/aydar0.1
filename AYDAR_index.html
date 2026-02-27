@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AYDAR — Dar-K but Smarter</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 24px 90px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 60% at 50% 28%,rgba(27,153,139,.13) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 82% 78%,rgba(244,162,97,.06) 0%,transparent 60%),var(--bg)}
+.hero-pat{position:absolute;inset:0;opacity:.042}
+.hero-glow{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none}
+.g1{width:320px;height:320px;background:radial-gradient(circle,rgba(244,162,97,.09),transparent 70%);top:10%;left:5%;animation:drift 10s ease-in-out infinite alternate}
+.g2{width:200px;height:200px;background:radial-gradient(circle,rgba(244,162,97,.06),transparent 70%);top:16%;right:8%;animation:drift 14s ease-in-out infinite alternate-reverse}
+@keyframes drift{to{transform:translateY(-22px) scale(1.05)}}
+.hero-hex{position:absolute;top:50%;left:50%;transform:translate(-50%,-56%);opacity:0;animation:fi2 1.6s ease forwards .3s}
+.hero-hex svg{filter:drop-shadow(0 0 70px rgba(27,153,139,.3))}
+.arch-strip{position:absolute;bottom:0;left:0;right:0;height:110px;pointer-events:none;opacity:.09}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal-l);margin-bottom:20px;position:relative;z-index:2;opacity:0;animation:rise .9s ease forwards .4s}
+.hero-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(68px,13.5vw,148px);letter-spacing:-4px;line-height:.9;margin-bottom:22px;position:relative;z-index:2;opacity:0;animation:rise .9s ease forwards .6s}
+.hero-title .gr{background:linear-gradient(155deg,var(--white) 25%,var(--teal) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-title .gk{background:linear-gradient(155deg,var(--teal-l),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic}
+.hero-sub{font-size:clamp(17px,2.4vw,26px);font-weight:300;font-style:italic;color:var(--muted);margin-bottom:40px;position:relative;z-index:2;opacity:0;animation:rise .9s ease forwards .8s}
+.hero-acts{display:flex;gap:18px;align-items:center;justify-content:center;position:relative;z-index:2;opacity:0;animation:rise .9s ease forwards 1s}
+
+/* ── ABOUT ── */
+#about{padding:140px 0;background:linear-gradient(180deg,var(--bg) 0%,#051b15 50%,var(--bg) 100%);position:relative;overflow:hidden}
+.about-pat{position:absolute;inset:0;opacity:.045}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-left .sh{background:linear-gradient(155deg,var(--white),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:20px}
+.about-body{font-size:18px;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:18px}
+.about-body strong{color:var(--white);font-weight:400}
+.founder-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px;margin-top:36px;position:relative;overflow:hidden}
+.founder-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.fn{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px}
+.ft2{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal-l);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+.fq{font-style:italic;font-size:15px;color:var(--muted);line-height:1.7}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:48px}
+.sc{background:var(--card);padding:28px 24px;text-align:center;transition:background .3s}
+.sc:hover{background:var(--card2)}
+.sn{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;letter-spacing:-1px;color:var(--teal-l);display:block;margin-bottom:4px}
+.sl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.about-right{display:flex;flex-direction:column;align-items:center;gap:32px}
+.big-hex{filter:drop-shadow(0 0 60px rgba(27,153,139,.35));animation:hpulse 6s ease-in-out infinite}
+@keyframes hpulse{0%,100%{filter:drop-shadow(0 0 60px rgba(27,153,139,.35))}50%{filter:drop-shadow(0 0 90px rgba(27,153,139,.55))}}
+.bpills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.bpill{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--teal-l);background:rgba(27,153,139,.08);border:1px solid var(--border);border-radius:980px;padding:7px 16px}
+
+/* ── PRODUCTS ── */
+#products{padding:140px 0;background:var(--bg);position:relative;overflow:hidden}
+.prod-head{text-align:center;margin-bottom:72px}
+.prod-head .sh{background:linear-gradient(155deg,var(--white),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:auto;gap:12px}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 32px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s;cursor:pointer;display:flex;flex-direction:column}
+.pc:hover{border-color:var(--border-h);transform:translateY(-5px)}
+.pc::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(27,153,139,.06) 0%,transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none}
+.pc:hover::after{opacity:1}
+.pc.tall{grid-row:span 2}
+.pc.wide{grid-column:span 2}
+.cpat{position:absolute;inset:0;pointer-events:none;border-radius:20px;overflow:hidden}
+.ptag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-l);margin-bottom:14px;display:block}
+.pico{font-size:44px;margin-bottom:20px;display:block}
+.pico-sm{font-size:32px;margin-bottom:16px;display:block}
+.ph{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(22px,2.8vw,30px);letter-spacing:-.5px;line-height:1.1;margin-bottom:12px}
+.pb{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:20px;flex:1}
+.pl{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--teal-l);display:inline-flex;align-items:center;gap:5px;transition:gap .2s;margin-top:auto}
+.pl:hover{gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-l);background:rgba(27,153,139,.08);border:1px solid var(--border);border-radius:6px;padding:4px 11px}
+.c-light{background:radial-gradient(ellipse at 50% 0%,rgba(27,153,139,.2) 0%,transparent 65%),var(--card)}
+.c-climate{background:radial-gradient(ellipse at 30% 30%,rgba(27,153,139,.14) 0%,transparent 55%),radial-gradient(ellipse at 80% 80%,rgba(244,162,97,.09) 0%,transparent 50%),var(--card)}
+.c-security{background:radial-gradient(ellipse at 20% 20%,rgba(244,162,97,.14) 0%,transparent 55%),var(--card)}
+.c-app{background:radial-gradient(ellipse at 70% 25%,rgba(27,153,139,.18) 0%,transparent 60%),var(--card)}
+.c-install{background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.1) 0%,transparent 65%),var(--card)}
+.c-b2b{background:radial-gradient(ellipse at 80% 50%,rgba(27,153,139,.16) 0%,transparent 60%),var(--card)}
+
+/* ── WHY ── */
+#why{padding:100px 0;background:#041412;border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);position:relative;overflow:hidden}
+.why-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--border);border-radius:20px;overflow:hidden;border:1px solid var(--border)}
+.wc{background:#041412;padding:36px 22px;text-align:center;transition:background .3s}
+.wc:hover{background:#061a15}
+.wi{font-size:30px;margin-bottom:14px}
+.wt{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:8px;color:var(--white)}
+.wd{font-size:12px;color:var(--dim);line-height:1.6;font-family:'JetBrains Mono',monospace}
+
+/* ── CONTACT ── */
+#contact{padding:140px 0;background:linear-gradient(180deg,var(--bg) 0%,#051b15 100%);position:relative;overflow:hidden}
+.contact-pat{position:absolute;inset:0;opacity:.04}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-left .sh{background:linear-gradient(155deg,var(--white),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+.ci-list{margin-top:40px;display:flex;flex-direction:column;gap:20px}
+.ci-item{display:flex;align-items:center;gap:14px}
+.ci-icon{width:42px;height:42px;background:rgba(27,153,139,.1);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ci-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-l);margin-bottom:3px}
+.ci-val{font-size:15px;color:var(--muted)}
+.form-wrap{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:40px;position:relative;overflow:hidden}
+.form-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-l)}
+.fi2,.fs2,.fta{background:#0a1e19;border:1px solid var(--border);border-radius:10px;color:var(--white);font-family:'Fraunces',serif;font-size:15px;font-weight:300;padding:13px 16px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.fi2:focus,.fs2:focus,.fta:focus{border-color:var(--teal-l);box-shadow:0 0 0 3px rgba(27,153,139,.12)}
+.fi2::placeholder,.fta::placeholder{color:var(--dim)}
+.fta{resize:vertical;min-height:120px}
+.fs2{appearance:none;cursor:pointer}
+.fsub{width:100%;background:var(--teal);color:#000;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;padding:15px 28px;border-radius:980px;border:none;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;margin-top:8px}
+.fsub:hover{background:var(--teal-l);transform:scale(1.02);box-shadow:0 0 30px rgba(27,153,139,.3)}
+.fnote{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);text-align:center;margin-top:12px;letter-spacing:.04em}
+.form-success{display:none;text-align:center;padding:32px}
+
+@media(max-width:900px){.about-grid,.cg{grid-template-columns:1fr;gap:48px}.about-right{display:none}.prod-grid{grid-template-columns:1fr 1fr}.pc.tall{grid-row:span 1}.pc.wide{grid-column:span 2}.why-grid{grid-template-columns:repeat(3,1fr)}.fr{grid-template-columns:1fr}}
+@media(max-width:600px){.prod-grid{grid-template-columns:1fr}.pc.wide{grid-column:span 1}.why-grid{grid-template-columns:repeat(2,1fr)}.stats-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav id="nav"></nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pat pat-z"></div>
+  <div class="hero-glow g1"></div>
+  <div class="hero-glow g2"></div>
+  <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);display:flex;gap:140px;pointer-events:none;opacity:0.07;z-index:1">
+    <svg width="26" height="82" viewBox="0 0 26 82" fill="none"><line x1="13" y1="0" x2="13" y2="17" stroke="#F4A261" stroke-width="1.2"/><ellipse cx="13" cy="51" rx="11" ry="27" fill="none" stroke="#F4A261" stroke-width="0.9"/><ellipse cx="13" cy="41" rx="7" ry="9" fill="#F4A261" opacity="0.25"/></svg>
+    <svg width="26" height="96" viewBox="0 0 26 96" fill="none"><line x1="13" y1="0" x2="13" y2="13" stroke="#F4A261" stroke-width="1.2"/><ellipse cx="13" cy="58" rx="12" ry="32" fill="none" stroke="#F4A261" stroke-width="0.9"/><ellipse cx="13" cy="44" rx="8" ry="11" fill="#F4A261" opacity="0.25"/></svg>
+    <svg width="26" height="82" viewBox="0 0 26 82" fill="none"><line x1="13" y1="0" x2="13" y2="17" stroke="#F4A261" stroke-width="1.2"/><ellipse cx="13" cy="51" rx="11" ry="27" fill="none" stroke="#F4A261" stroke-width="0.9"/><ellipse cx="13" cy="41" rx="7" ry="9" fill="#F4A261" opacity="0.25"/></svg>
+  </div>
+  <div class="hero-hex">
+    <svg width="240" height="240" viewBox="0 0 240 240" fill="none">
+      <defs><radialGradient id="hg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1B998B" stop-opacity="0.22"/><stop offset="100%" stop-color="#1B998B" stop-opacity="0"/></radialGradient><filter id="hb"><feGaussianBlur stdDeviation="3"/></filter></defs>
+      <polygon points="120,15 225,72 225,168 120,225 15,168 15,72" fill="url(#hg)"/>
+      <polygon points="120,15 225,72 225,168 120,225 15,168 15,72" fill="none" stroke="#1B998B" stroke-width="1.6" opacity="0.6" filter="url(#hb)"/>
+      <polygon points="120,15 225,72 225,168 120,225 15,168 15,72" fill="none" stroke="#2BBFAE" stroke-width="0.7" opacity="0.28"/>
+      <polygon points="120,42 198,86 198,154 120,198 42,154 42,86" fill="none" stroke="#1B998B" stroke-width="0.5" opacity="0.14"/>
+      <polygon points="120,79 126,97 143,91 137,107 155,113 137,119 143,135 126,129 120,147 114,129 97,135 103,119 85,113 103,107 97,91 114,97" fill="rgba(27,153,139,0.06)" stroke="#F4A261" stroke-width="0.7" opacity="0.28"/>
+      <path d="M120 74L146 158L120 145L94 158Z" fill="#1B998B" opacity="0.95"/>
+      <path d="M120 74L94 158L120 145Z" fill="#2BBFAE" opacity="0.7"/>
+      <circle cx="120" cy="15" r="3.5" fill="#1B998B" opacity="0.6"/><circle cx="225" cy="72" r="3.5" fill="#1B998B" opacity="0.6"/><circle cx="225" cy="168" r="3.5" fill="#1B998B" opacity="0.6"/><circle cx="120" cy="225" r="3.5" fill="#1B998B" opacity="0.6"/><circle cx="15" cy="168" r="3.5" fill="#1B998B" opacity="0.6"/><circle cx="15" cy="72" r="3.5" fill="#1B998B" opacity="0.6"/>
+    </svg>
+  </div>
+  <div class="arch-strip"><svg viewBox="0 0 1440 110" preserveAspectRatio="none" fill="none"><path d="M0 110L0 55Q144-15 288 55L288 110Z" stroke="#1B998B" stroke-width="1"/><path d="M288 110L288 55Q432-15 576 55L576 110Z" stroke="#1B998B" stroke-width="1"/><path d="M576 110L576 55Q720-15 864 55L864 110Z" stroke="#1B998B" stroke-width="1"/><path d="M864 110L864 55Q1008-15 1152 55L1152 110Z" stroke="#1B998B" stroke-width="1"/><path d="M1152 110L1152 55Q1296-15 1440 55L1440 110Z" stroke="#1B998B" stroke-width="1"/></svg></div>
+  <p class="hero-tag">Introducing AYDAR · Morocco's Smart Home</p>
+  <h1 class="hero-title"><span class="gr">Dar-<span class="gk">K</span><br>but Smarter.</span></h1>
+  <p class="hero-sub">Like dark mode, but for your entire home.</p>
+  <div class="hero-acts">
+    <a href="#products" class="btn-p">Explore products</a>
+    <a href="#about" class="btn-g">Our story →</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker"><div class="tt"><span class="ti"><span>✦</span> Smart Lighting</span><span class="ti"><span>✦</span> Climate Control</span><span class="ti"><span>✦</span> Security & Access</span><span class="ti"><span>✦</span> The AYDAR App</span><span class="ti"><span>✦</span> B2B Partnerships</span><span class="ti"><span>✦</span> Made in Morocco 🇲🇦</span><span class="ti"><span>✦</span> Dar-K but Smarter</span><span class="ti"><span>✦</span> Matter + Zigbee 3.0</span></div></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-pat pat-s"></div>
+  <div class="si">
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <span class="ey">01 · Our Story</span>
+        <h2 class="sh">Any home.<br>Intelligently.</h2>
+        <p class="about-body">AYDAR was born from a simple observation — smart homes existed, but they felt <strong>foreign to Moroccan homes</strong>. Too expensive, too complex, not built for how we actually live.</p>
+        <p class="about-body">The name says everything. <strong>AYDAR</strong> — Ay Dar — means any home in Darija. Because every home, regardless of size or budget, deserves to be smart.</p>
+        <p class="about-body">We combine <strong>OEM hardware partnerships</strong>, local installation expertise, and a <strong>custom app</strong> to deliver the complete smart home experience — in your language.</p>
+        <div class="founder-card reveal d2">
+          <div class="fn">Abir Ismaili</div>
+          <div class="ft2">Founder · AYDAR</div>
+          <div class="fq">"I named it after my initials because AI is at the core of everything we do — and Dar is home. Dar-K but Smarter isn't just a slogan, it's a promise."</div>
+        </div>
+        <div class="stats-row reveal d3">
+          <div class="sc"><span class="sn">3</span><span class="sl">Product categories</span></div>
+          <div class="sc"><span class="sn">B2B</span><span class="sl">Real estate focus</span></div>
+          <div class="sc"><span class="sn">2025</span><span class="sl">Founded in Morocco</span></div>
+        </div>
+      </div>
+      <div class="about-right reveal d2">
+        <svg class="big-hex" width="260" height="260" viewBox="0 0 260 260" fill="none">
+          <defs><radialGradient id="bhg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1B998B" stop-opacity="0.2"/><stop offset="100%" stop-color="#1B998B" stop-opacity="0"/></radialGradient></defs>
+          <polygon points="130,16 244,78 244,182 130,244 16,182 16,78" fill="url(#bhg)"/>
+          <polygon points="130,16 244,78 244,182 130,244 16,182 16,78" fill="none" stroke="#1B998B" stroke-width="1.6" opacity="0.65"/>
+          <polygon points="130,16 244,78 244,182 130,244 16,182 16,78" fill="none" stroke="#2BBFAE" stroke-width="0.7" opacity="0.28"/>
+          <polygon points="130,44 216,92 216,168 130,216 44,168 44,92" fill="none" stroke="#1B998B" stroke-width="0.5" opacity="0.15"/>
+          <polygon points="130,86 137,105 155,98 148,117 167,122 148,127 155,146 137,139 130,158 123,139 105,146 112,127 93,122 112,117 105,98 123,105" fill="rgba(27,153,139,0.07)" stroke="#F4A261" stroke-width="0.8" opacity="0.3"/>
+          <path d="M130 52L158 172L130 157L102 172Z" fill="#1B998B" opacity="0.95"/>
+          <path d="M130 52L102 172L130 157Z" fill="#2BBFAE" opacity="0.7"/>
+          <circle cx="130" cy="16" r="3" fill="#1B998B" opacity="0.6"/><circle cx="244" cy="78" r="3" fill="#1B998B" opacity="0.6"/><circle cx="244" cy="182" r="3" fill="#1B998B" opacity="0.6"/><circle cx="130" cy="244" r="3" fill="#1B998B" opacity="0.6"/><circle cx="16" cy="182" r="3" fill="#1B998B" opacity="0.6"/><circle cx="16" cy="78" r="3" fill="#1B998B" opacity="0.6"/>
+        </svg>
+        <div class="bpills">
+          <span class="bpill">🇲🇦 Morocco</span><span class="bpill">AI · Abir Ismaili</span><span class="bpill">Dar · Home</span>
+          <span class="bpill">Ay Dar · Any Home</span><span class="bpill">Matter Ready</span><span class="bpill">Zigbee 3.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div style="position:absolute;inset:0;opacity:.04" class="pat-m"></div>
+  <div class="si">
+    <div class="prod-head reveal">
+      <span class="ey">02 · Products & Services</span>
+      <h2 class="sh">Everything your<br>home needs.</h2>
+      <p class="sb" style="margin:0 auto;text-align:center;max-width:520px">Hardware, software, installation, support — all from one brand. Click any product to explore the full catalog.</p>
+    </div>
+    <div class="prod-grid">
+      <div class="pc tall c-light reveal" onclick="location.href='lighting.html'">
+        <div class="cpat pat-z" style="opacity:.4"></div>
+        <span class="pico">💡</span>
+        <span class="ptag">Smart Lighting</span>
+        <h3 class="ph">Light that<br>understands<br>your mood.</h3>
+        <p class="pb">RGB bulbs, tunable strips, smart switches. Set scenes, schedules, or let AYDAR learn your preferences automatically.</p>
+        <div class="chips"><span class="chip">Bulbs</span><span class="chip">LED Strips</span><span class="chip">Switches</span><span class="chip">Dimmers</span></div>
+        <a href="lighting.html" class="pl">View catalog →</a>
+      </div>
+      <div class="pc c-security reveal d1" onclick="location.href='security.html'">
+        <div class="cpat pat-z" style="opacity:.3"></div>
+        <span class="pico-sm">🔒</span>
+        <span class="ptag">Security & Access</span>
+        <h3 class="ph">Your home.<br>Always safe.</h3>
+        <p class="pb">Smart locks, cameras, sensors — all in the AYDAR app.</p>
+        <a href="security.html" class="pl">View catalog →</a>
+      </div>
+      <div class="pc c-climate reveal d2" onclick="location.href='climate.html'">
+        <div class="cpat pat-m" style="opacity:.4"></div>
+        <span class="pico-sm">🌡</span>
+        <span class="ptag">Climate Control</span>
+        <h3 class="ph">Perfect temp,<br>always.</h3>
+        <p class="pb">Smart thermostats with Opentherm support, built for Moroccan homes.</p>
+        <a href="climate.html" class="pl">View catalog →</a>
+      </div>
+      <div class="pc wide c-app reveal d1" onclick="location.href='app.html'">
+        <div class="cpat pat-s" style="opacity:.4"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px">
+          <div style="flex:1"><span class="pico-sm">📱</span><span class="ptag">The AYDAR App</span><h3 class="ph">One app. Every device.</h3><p class="pb" style="max-width:340px">Control your entire home from a single interface. Scenes, schedules, energy monitoring — in Darija, French, or Arabic.</p><a href="app.html" class="pl">Discover the app →</a></div>
+          <div style="font-family:'Syne',sans-serif;font-size:80px;font-weight:800;opacity:.07;color:var(--teal);line-height:1;align-self:flex-end">APP</div>
+        </div>
+      </div>
+      <div class="pc c-install reveal" onclick="location.href='index.html#contact'">
+        <span class="pico-sm">🛠</span>
+        <span class="ptag">Installation</span>
+        <h3 class="ph">We handle<br>everything.</h3>
+        <p class="pb">Professional install by certified AYDAR technicians. Configure, test, train — done.</p>
+        <a href="#contact" class="pl">Book now →</a>
+      </div>
+      <div class="pc wide c-b2b reveal d1" onclick="location.href='b2b.html'">
+        <div class="cpat pat-s" style="opacity:.35"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px">
+          <div style="flex:1"><span class="pico-sm">🏢</span><span class="ptag">B2B · Real Estate & Developers</span><h3 class="ph">Smart from<br>the blueprint.</h3><p class="pb" style="max-width:340px">Partner with AYDAR to deliver smart-ready developments at scale. From Groupe AL OMRANE to boutique developers.</p><a href="b2b.html" class="pl">Become a partner →</a></div>
+          <div style="font-family:'Syne',sans-serif;font-size:72px;font-weight:800;opacity:.07;color:var(--teal);line-height:1;align-self:flex-end">B2B</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div style="position:absolute;inset:0;opacity:.04" class="pat-m"></div>
+  <div class="si">
+    <div style="text-align:center;margin-bottom:52px" class="reveal"><span class="ey">03 · Why AYDAR</span><h2 class="sh" style="font-size:clamp(32px,5vw,56px)">Built different.<br>For Morocco.</h2></div>
+    <div class="why-grid reveal d1">
+      <div class="wc"><div class="wi">🇲🇦</div><div class="wt">Local First</div><div class="wd">Darija, French & Arabic. Built for how Moroccan families live.</div></div>
+      <div class="wc"><div class="wi">🔮</div><div class="wt">AI Native</div><div class="wd">Learns your home's patterns and anticipates your needs.</div></div>
+      <div class="wc"><div class="wi">⚡</div><div class="wt">Matter Ready</div><div class="wd">Compatible with HomeKit, Google Home & Alexa.</div></div>
+      <div class="wc"><div class="wi">🔒</div><div class="wt">Private</div><div class="wd">Local control. No unnecessary cloud. Your data, your home.</div></div>
+      <div class="wc"><div class="wi">🏗</div><div class="wt">B2B Scale</div><div class="wd">From one apartment to entire real estate developments.</div></div>
+      <div class="wc"><div class="wi">🛠</div><div class="wt">Full Service</div><div class="wd">Hardware + install + app + support. Day one to year ten.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-pat pat-s"></div>
+  <div class="si">
+    <div class="cg">
+      <div class="reveal">
+        <span class="ey">04 · Contact</span>
+        <h2 class="sh">Let's make<br>your home<br>smarter.</h2>
+        <p class="sb">Whether you're a homeowner or a developer planning 200 units — we'd love to hear from you.</p>
+        <div class="ci-list">
+          <div class="ci-item"><div class="ci-icon">🌐</div><div><div class="ci-lbl">Website</div><div class="ci-val">aydar.ma</div></div></div>
+          <div class="ci-item"><div class="ci-icon">📍</div><div><div class="ci-lbl">Location</div><div class="ci-val">Morocco 🇲🇦</div></div></div>
+          <div class="ci-item"><div class="ci-icon">💼</div><div><div class="ci-lbl">Partnerships</div><div class="ci-val">B2B · Real Estate · Developers</div></div></div>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="form-wrap">
+          <div id="ff">
+            <div class="fr"><div class="fg"><label class="fl">First name</label><input class="fi2" type="text" placeholder="Abir" id="fn2"></div><div class="fg"><label class="fl">Last name</label><input class="fi2" type="text" placeholder="Ismaili"></div></div>
+            <div class="fg"><label class="fl">Email</label><input class="fi2" type="email" placeholder="you@example.com" id="em2"></div>
+            <div class="fg"><label class="fl">I am a…</label><select class="fs2"><option value="">Select one</option><option>Homeowner</option><option>Real estate developer</option><option>Construction company</option><option>Other business</option></select></div>
+            <div class="fg"><label class="fl">Interested in</label><select class="fs2"><option value="">Select category</option><option>Smart Lighting</option><option>Climate Control</option><option>Security & Access</option><option>Full smart home setup</option><option>B2B partnership</option><option>The AYDAR App</option></select></div>
+            <div class="fg"><label class="fl">Message</label><textarea class="fta" id="msg2" placeholder="Tell us about your project…"></textarea></div>
+            <button class="fsub" onclick="handleSub()">Send message ✦</button>
+            <p class="fnote">We reply within 24 hours · aydar.ma</p>
+          </div>
+          <div class="form-success" id="fsuc"><div style="font-size:40px;margin-bottom:16px">✦</div><p style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--teal-l);margin-bottom:8px">Message received.</p><p style="color:var(--muted);font-style:italic">We'll be in touch within 24 hours. Shukran!</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="footer"></footer>
+<button class="btt" id="btt">↑</button>
+
+<script src="shared.js"></script>
+<script>
+injectNav('Home');
+injectFooter();
+initScroll();
+initReveal();
+function handleSub(){
+  const n=document.getElementById('fn2').value.trim();
+  const e=document.getElementById('em2').value.trim();
+  if(!n||!e){alert('Please fill in your name and email.');return}
+  document.getElementById('ff').style.display='none';
+  document.getElementById('fsuc').style.display='block';
+}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-70,behavior:'smooth'})}
+  });
+});
+</script>
+</body>
+</html>
