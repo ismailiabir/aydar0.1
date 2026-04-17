@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Curtains & Shading — AYDAR</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+.cat-hero{min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 80px;position:relative;overflow:hidden;margin-top:var(--nav-h)}
+.cat-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 20%,rgba(27,153,139,.15) 0%,transparent 65%),radial-gradient(ellipse 50% 50% at 10% 80%,rgba(43,191,174,.08) 0%,transparent 55%),var(--bg)}
+.cat-hero-pat{position:absolute;inset:0;opacity:.05}
+.cat-hero .si{position:relative;z-index:2}
+.cat-hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-link{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:6px;transition:color .2s}
+.back-link:hover{color:var(--teal-l)}
+.cat-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(56px,10vw,124px);letter-spacing:-4px;line-height:.92;margin-bottom:24px;background:linear-gradient(155deg,var(--white) 30%,var(--teal) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cat-hero-sub{font-size:clamp(16px,2vw,21px);font-weight:300;font-style:italic;color:var(--muted);max-width:600px;margin-bottom:36px;line-height:1.7}
+.cat-hero-acts{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+
+/* Curtain animation in hero */
+.curtain-left,.curtain-right{position:absolute;top:0;height:100%;width:160px;pointer-events:none;z-index:1}
+.curtain-left{left:0;background:linear-gradient(90deg,rgba(27,153,139,.06) 0%,transparent 100%)}
+.curtain-right{right:0;background:linear-gradient(270deg,rgba(27,153,139,.06) 0%,transparent 100%)}
+
+.bg-glow1{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(27,153,139,.1),transparent 70%);top:-10%;right:15%;animation:gp 6s ease-in-out infinite;pointer-events:none;border-radius:50%;filter:blur(70px)}
+.bg-glow2{position:absolute;width:200px;height:200px;background:radial-gradient(circle,rgba(43,191,174,.07),transparent 70%);top:50%;right:40%;animation:gp 9s ease-in-out infinite 1.2s;pointer-events:none;border-radius:50%;filter:blur(60px)}
+@keyframes gp{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+
+.catalog-section{padding:80px 0 120px;background:var(--bg)}
+.cat-section-head{margin-bottom:52px}
+.cat-section-head h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,4vw,48px);letter-spacing:-1.5px;margin-bottom:10px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:60px}
+.cat-grid-2{grid-template-columns:repeat(2,1fr)}
+.cat-grid-4{grid-template-columns:repeat(4,1fr)}
+
+.prod-tile{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative;transition:border-color .3s,transform .4s;cursor:pointer}
+.prod-tile:hover{border-color:var(--border-h);transform:translateY(-5px)}
+.prod-tile::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(27,153,139,.07) 0%,transparent 55%);opacity:0;transition:opacity .4s;pointer-events:none}
+.prod-tile:hover::after{opacity:1}
+.tile-img{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.tile-img-tall{height:260px}
+.tile-body{padding:24px}
+.tile-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-l);margin-bottom:8px;display:block}
+.tile-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px;line-height:1.2}
+.tile-desc{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:16px}
+.tile-price{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--white);display:flex;align-items:center;justify-content:space-between}
+.price-val{color:var(--teal-l)}
+.tile-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+
+/* Light control visualizer */
+.light-demo{background:linear-gradient(180deg,rgba(244,162,97,.06) 0%,rgba(27,153,139,.04) 100%);border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);padding:72px 0}
+.light-demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
+.light-stages{display:flex;gap:10px}
+.light-stage{flex:1;height:120px;border-radius:12px;border:1px solid var(--border);display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--dim);position:relative;overflow:hidden;cursor:pointer;transition:border-color .3s}
+.light-stage:hover{border-color:var(--border-h)}
+.light-stage span{position:relative;z-index:1}
+
+.scenes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+.scene-card{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;transition:border-color .3s,background .3s;cursor:pointer}
+.scene-card:hover{border-color:var(--border-h);background:#0d2820}
+.scene-icon{font-size:28px;margin-bottom:10px}
+.scene-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px}
+.scene-desc{font-size:11px;color:var(--dim);font-family:'JetBrains Mono',monospace;letter-spacing:.05em}
+
+.spec-block{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px;position:relative;overflow:hidden}
+.spec-block::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--teal-l))}
+.spec-block h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:18px}
+
+.feat-list{list-style:none;margin-top:8px}
+.feat-list li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:.5px solid var(--border);font-size:14px;color:var(--muted);font-weight:300;line-height:1.6}
+.feat-list li:last-child{border-bottom:none}
+.feat-list li::before{content:'✦';color:var(--teal);font-size:10px;margin-top:3px;flex-shrink:0}
+
+.cta-band{background:var(--card);border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);padding:60px 0;text-align:center;position:relative;overflow:hidden;margin-top:80px}
+.cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.08) 0%,transparent 70%)}
+.cta-band h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;position:relative;z-index:1}
+.cta-band p{font-size:17px;color:var(--muted);font-weight:300;font-style:italic;margin-bottom:32px;position:relative;z-index:1}
+.cta-acts{display:flex;gap:16px;justify-content:center;position:relative;z-index:1}
+
+@media(max-width:900px){.cat-grid,.cat-grid-4{grid-template-columns:repeat(2,1fr)}.light-demo-grid{grid-template-columns:1fr}.light-stages{flex-wrap:wrap}.scenes{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cat-grid,.cat-grid-4,.cat-grid-2{grid-template-columns:1fr}.scenes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav id="nav"></nav>
+
+<!-- HERO -->
+<section class="cat-hero">
+  <div class="cat-hero-bg"></div>
+  <div class="cat-hero-pat pat-s"></div>
+  <div class="curtain-left"></div>
+  <div class="curtain-right"></div>
+  <div class="bg-glow1"></div>
+  <div class="bg-glow2"></div>
+  <div class="si">
+    <div class="cat-hero-eyebrow">
+      <a href="index.html" class="back-link">← Back</a>
+      <span style="color:var(--dim)">·</span>
+      <span class="ey" style="margin:0">Smart Shading</span>
+    </div>
+    <h1>Curtains<br>& Shading.</h1>
+    <p class="cat-hero-sub">Your curtains open with the sunrise. Close when the sun hits your screen. Adjust when it rains. They respond to your life — not the other way around.</p>
+    <div class="cat-hero-acts">
+      <a href="index.html#contact" class="btn-p">Get a quote</a>
+      <a href="#catalog" class="btn-g">Browse catalog →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker"><div class="tt">
+  <span class="ti"><span>✦</span> Motorised Curtains</span>
+  <span class="ti"><span>✦</span> Smart Roller Blinds</span>
+  <span class="ti"><span>✦</span> Venetian Blinds</span>
+  <span class="ti"><span>✦</span> Sunrise Automation</span>
+  <span class="ti"><span>✦</span> Zigbee 3.0</span>
+  <span class="ti"><span>✦</span> Solar & Battery</span>
+  <span class="ti"><span>✦</span> Voice Control</span>
+  <span class="ti"><span>✦</span> Retrofit Any Rail</span>
+  <span class="ti"><span>✦</span> Motorised Curtains</span>
+  <span class="ti"><span>✦</span> Smart Roller Blinds</span>
+  <span class="ti"><span>✦</span> Venetian Blinds</span>
+  <span class="ti"><span>✦</span> Sunrise Automation</span>
+  <span class="ti"><span>✦</span> Zigbee 3.0</span>
+  <span class="ti"><span>✦</span> Solar & Battery</span>
+  <span class="ti"><span>✦</span> Voice Control</span>
+  <span class="ti"><span>✦</span> Retrofit Any Rail</span>
+</div></div>
+
+<!-- LIGHT CONTROL DEMO BAND -->
+<div class="light-demo">
+  <div class="si">
+    <div class="light-demo-grid">
+      <div class="reveal">
+        <span class="ey">The light is now a setting</span>
+        <h2 class="sh" style="margin-bottom:18px;font-size:clamp(26px,3.5vw,46px)">Control what<br>enters your home.</h2>
+        <p class="sb" style="margin-bottom:28px">Moroccan summers hit 38°C. Smart shading isn't a luxury — it cuts your AC load by up to 30% by blocking heat before it enters the room.</p>
+        <ul class="feat-list">
+          <li>Sunrise schedule — curtains open gently at your set time, no alarm jolt</li>
+          <li>Lux-linked — closes automatically when sunlight exceeds your comfort threshold</li>
+          <li>Privacy mode — one tap closes all shading across every room simultaneously</li>
+          <li>Away simulation — randomly adjusts shading while you're travelling to deter intrusion</li>
+        </ul>
+      </div>
+      <div class="reveal d2">
+        <div style="margin-bottom:14px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)">Light level presets</div>
+        <div class="light-stages">
+          <div class="light-stage" style="background:linear-gradient(180deg,rgba(244,162,97,.02) 0%,rgba(244,162,97,.35) 100%)"><span>Blackout<br>0%</span></div>
+          <div class="light-stage" style="background:linear-gradient(180deg,rgba(244,162,97,.05) 0%,rgba(244,162,97,.55) 100%)"><span>Night<br>25%</span></div>
+          <div class="light-stage" style="background:linear-gradient(180deg,rgba(244,162,97,.08) 0%,rgba(244,162,97,.72) 100%)"><span>Work<br>50%</span></div>
+          <div class="light-stage" style="background:linear-gradient(180deg,rgba(244,162,97,.14) 0%,rgba(244,162,97,.88) 100%)"><span>Morning<br>75%</span></div>
+          <div class="light-stage" style="background:linear-gradient(180deg,rgba(244,162,97,.2) 0%,rgba(244,162,97,1) 100%)"><span>Open<br>100%</span></div>
+        </div>
+        <div style="margin-top:20px;padding:18px;background:var(--card);border:1px solid var(--border);border-radius:12px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-l);margin-bottom:8px">Energy saving</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--white);letter-spacing:-1px">Up to 30%</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">reduction in AC load — smart shading pre-empts heat entry before it warms your room.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CATALOG -->
+<section class="catalog-section" id="catalog">
+  <div class="si">
+
+    <!-- Curtain motors -->
+    <div class="cat-section-head reveal">
+      <span class="ey">01 · Curtain Motors</span>
+      <h2>Any curtain. Any rail.<br>Now motorised.</h2>
+      <p class="sb" style="max-width:520px">AYDAR curtain motors retrofit onto your existing curtain rods. No new hardware. No structural changes. Install in 20 minutes.</p>
+    </div>
+    <div class="cat-grid reveal d1">
+
+      <div class="prod-tile">
+        <div class="tile-img tile-img-tall" style="background:radial-gradient(ellipse at 50% 25%,rgba(27,153,139,.18) 0%,transparent 60%),#071512">
+          <svg width="90" height="120" viewBox="0 0 90 120" fill="none">
+            <!-- Curtain rod -->
+            <rect x="5" y="22" width="80" height="7" rx="3.5" fill="rgba(27,153,139,0.2)" stroke="#1B998B" stroke-width="1"/>
+            <!-- Motor unit on rod -->
+            <rect x="34" y="18" width="22" height="15" rx="4" fill="rgba(43,191,174,0.2)" stroke="#2BBFAE" stroke-width="1.2"/>
+            <circle cx="45" cy="25" r="3" fill="#2BBFAE" opacity="0.8"/>
+            <!-- Left curtain panel -->
+            <path d="M5 29 Q8 55 6 105 L30 105 Q28 75 26 50 Q25 38 22 29 Z" fill="rgba(27,153,139,0.12)" stroke="#1B998B" stroke-width="0.8"/>
+            <!-- Right curtain panel -->
+            <path d="M85 29 Q82 55 84 105 L60 105 Q62 75 64 50 Q65 38 68 29 Z" fill="rgba(27,153,139,0.12)" stroke="#1B998B" stroke-width="0.8"/>
+            <!-- Curtain folds -->
+            <path d="M10 35 Q14 55 12 80" stroke="#1B998B" stroke-width="0.5" fill="none" opacity="0.4"/>
+            <path d="M18 35 Q22 60 20 85" stroke="#1B998B" stroke-width="0.5" fill="none" opacity="0.3"/>
+            <path d="M80 35 Q76 55 78 80" stroke="#1B998B" stroke-width="0.5" fill="none" opacity="0.4"/>
+            <path d="M72 35 Q68 60 70 85" stroke="#1B998B" stroke-width="0.5" fill="none" opacity="0.3"/>
+            <!-- WiFi -->
+            <path d="M38 13 Q45 7 52 13" stroke="#2BBFAE" stroke-width="1" fill="none" stroke-linecap="round"/>
+            <path d="M40 16 Q45 11 50 16" stroke="#2BBFAE" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+            <circle cx="45" cy="19" r="1.5" fill="#2BBFAE"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Curtain Motor · Retrofit</span>
+          <div class="tile-name">AYDAR Curtain Motor Pro</div>
+          <div class="tile-desc">Fits any standard curtain rod 15–40mm diameter. Supports curtains up to 50kg. Ultra-quiet motor (< 35dB). Zigbee + Wi-Fi. Rechargeable battery — no wiring required.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Zigbee 3.0</span><span class="badge badge-teal">Rechargeable</span><span class="badge badge-dim">< 35dB</span></div>
+          <div class="tile-price"><span>Curtain Motor</span><span class="price-val">From 690 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img tile-img-tall" style="background:radial-gradient(ellipse at 50% 25%,rgba(244,162,97,.14) 0%,transparent 60%),#0e0a04">
+          <svg width="90" height="120" viewBox="0 0 90 120" fill="none">
+            <!-- Track rail -->
+            <rect x="5" y="22" width="80" height="6" rx="3" fill="rgba(244,162,97,0.15)" stroke="#F4A261" stroke-width="1"/>
+            <!-- Motor unit -->
+            <rect x="36" y="16" width="18" height="14" rx="4" fill="rgba(244,162,97,0.2)" stroke="#F4A261" stroke-width="1.1"/>
+            <circle cx="45" cy="23" r="2.5" fill="#F4A261" opacity="0.8"/>
+            <!-- Two-panel curtains meeting in center -->
+            <path d="M5 28 L5 108 L40 108 L44 28 Z" fill="rgba(244,162,97,0.1)" stroke="#F4A261" stroke-width="0.8"/>
+            <path d="M85 28 L85 108 L50 108 L46 28 Z" fill="rgba(244,162,97,0.1)" stroke="#F4A261" stroke-width="0.8"/>
+            <!-- Pleat lines left -->
+            <line x1="12" y1="28" x2="10" y2="108" stroke="#F4A261" stroke-width="0.4" opacity="0.3"/>
+            <line x1="22" y1="28" x2="20" y2="108" stroke="#F4A261" stroke-width="0.4" opacity="0.3"/>
+            <line x1="32" y1="28" x2="32" y2="108" stroke="#F4A261" stroke-width="0.4" opacity="0.3"/>
+            <!-- Pleat lines right -->
+            <line x1="78" y1="28" x2="80" y2="108" stroke="#F4A261" stroke-width="0.4" opacity="0.3"/>
+            <line x1="68" y1="28" x2="70" y2="108" stroke="#F4A261" stroke-width="0.4" opacity="0.3"/>
+            <line x1="58" y1="28" x2="58" y2="108" stroke="#F4A261" stroke-width="0.4" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Curtain Track Motor · Heavy duty</span>
+          <div class="tile-name">AYDAR Track Motor 5m</div>
+          <div class="tile-desc">Complete motorised curtain track system. 5m extendable, supports up to 80kg. For large salon windows, panoramic openings, and double-height spaces. Includes wall bracket kit.</div>
+          <div class="tile-badges"><span class="badge badge-gold">Up to 80kg</span><span class="badge badge-teal">5m extendable</span><span class="badge badge-dim">Bracket included</span></div>
+          <div class="tile-price"><span>Track Motor System</span><span class="price-val">From 1,190 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img tile-img-tall" style="background:radial-gradient(ellipse at 50% 25%,rgba(43,191,174,.12) 0%,transparent 60%),#071512">
+          <svg width="70" height="120" viewBox="0 0 70 120" fill="none">
+            <!-- Roller blind tube -->
+            <rect x="10" y="18" width="50" height="8" rx="4" fill="rgba(43,191,174,0.2)" stroke="#2BBFAE" stroke-width="1.2"/>
+            <!-- Motor end cap -->
+            <rect x="10" y="16" width="14" height="12" rx="3" fill="rgba(43,191,174,0.25)" stroke="#2BBFAE" stroke-width="1"/>
+            <circle cx="17" cy="22" r="3" fill="#2BBFAE" opacity="0.8"/>
+            <!-- Blind fabric -->
+            <rect x="12" y="26" width="46" height="80" rx="0" fill="rgba(43,191,174,0.08)" stroke="#2BBFAE" stroke-width="0.8"/>
+            <!-- Horizontal slat lines -->
+            <line x1="12" y1="36" x2="58" y2="36" stroke="#2BBFAE" stroke-width="0.4" opacity="0.4"/>
+            <line x1="12" y1="46" x2="58" y2="46" stroke="#2BBFAE" stroke-width="0.4" opacity="0.4"/>
+            <line x1="12" y1="56" x2="58" y2="56" stroke="#2BBFAE" stroke-width="0.4" opacity="0.4"/>
+            <line x1="12" y1="66" x2="58" y2="66" stroke="#2BBFAE" stroke-width="0.4" opacity="0.4"/>
+            <line x1="12" y1="76" x2="58" y2="76" stroke="#2BBFAE" stroke-width="0.4" opacity="0.4"/>
+            <line x1="12" y1="86" x2="58" y2="86" stroke="#2BBFAE" stroke-width="0.4" opacity="0.4"/>
+            <!-- Bottom bar -->
+            <rect x="12" y="104" width="46" height="4" rx="2" fill="#2BBFAE" opacity="0.4"/>
+            <!-- Solar panel hint -->
+            <rect x="46" y="14" width="12" height="6" rx="1" fill="rgba(244,162,97,0.2)" stroke="#F4A261" stroke-width="0.5"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Smart Roller Blind · Solar</span>
+          <div class="tile-name">AYDAR Roller Solar</div>
+          <div class="tile-desc">Motorised roller blind with built-in solar charging panel. Completely wire-free. UV-blocking fabric (70–99% options). Adjusts automatically based on lux sensor data from AYDAR.</div>
+          <div class="tile-badges"><span class="badge badge-gold">Solar powered</span><span class="badge badge-teal">Wire-free</span><span class="badge badge-teal">UV blocking</span></div>
+          <div class="tile-price"><span>Solar Roller Blind</span><span class="price-val">From 890 MAD</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Venetian & Exterior -->
+    <div class="cat-section-head reveal" style="margin-top:32px">
+      <span class="ey">02 · Venetian & Exterior</span>
+      <h2>Precision control.<br>Degree by degree.</h2>
+      <p class="sb" style="max-width:500px">Venetian blinds let you control the angle of light — not just open or closed. Let morning light in, block the afternoon glare, keep the view open.</p>
+    </div>
+    <div class="cat-grid cat-grid-2 reveal d1">
+
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 30%,rgba(244,162,97,.12) 0%,transparent 60%),#0e0a04">
+          <svg width="90" height="100" viewBox="0 0 90 100" fill="none">
+            <!-- Venetian blind slats -->
+            <rect x="8" y="14" width="74" height="7" rx="2" fill="rgba(244,162,97,0.2)" stroke="#F4A261" stroke-width="0.8"/>
+            <rect x="8" y="24" width="74" height="5" rx="1.5" fill="rgba(244,162,97,0.15)" stroke="#F4A261" stroke-width="0.6"/>
+            <rect x="8" y="32" width="74" height="5" rx="1.5" fill="rgba(244,162,97,0.12)" stroke="#F4A261" stroke-width="0.6"/>
+            <rect x="8" y="40" width="74" height="5" rx="1.5" fill="rgba(244,162,97,0.1)" stroke="#F4A261" stroke-width="0.5"/>
+            <rect x="8" y="48" width="74" height="5" rx="1.5" fill="rgba(244,162,97,0.1)" stroke="#F4A261" stroke-width="0.5"/>
+            <rect x="8" y="56" width="74" height="5" rx="1.5" fill="rgba(244,162,97,0.08)" stroke="#F4A261" stroke-width="0.5"/>
+            <rect x="8" y="64" width="74" height="5" rx="1.5" fill="rgba(244,162,97,0.08)" stroke="#F4A261" stroke-width="0.5"/>
+            <rect x="8" y="72" width="74" height="5" rx="1.5" fill="rgba(244,162,97,0.06)" stroke="#F4A261" stroke-width="0.4"/>
+            <rect x="8" y="80" width="74" height="4" rx="1.5" fill="rgba(244,162,97,0.06)" stroke="#F4A261" stroke-width="0.4"/>
+            <!-- Motor unit top -->
+            <rect x="36" y="8" width="18" height="10" rx="3" fill="rgba(27,153,139,0.2)" stroke="#1B998B" stroke-width="0.8"/>
+            <circle cx="45" cy="13" r="2" fill="#2BBFAE" opacity="0.8"/>
+            <!-- Tilt indicator -->
+            <path d="M78 50 Q84 45 84 55" stroke="#2BBFAE" stroke-width="1" fill="none" stroke-linecap="round"/>
+            <line x1="84" y1="50" x2="84" y2="55" stroke="#2BBFAE" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Smart Venetian · Angle control</span>
+          <div class="tile-name">AYDAR Venetian 25mm</div>
+          <div class="tile-desc">25mm aluminium venetian blinds with motorised tilt and raise. 0–180° slat angle control via app. Lux-linked — auto-adjusts tilt angle to maintain your preferred brightness level throughout the day.</div>
+          <div class="tile-badges"><span class="badge badge-gold">0–180° tilt</span><span class="badge badge-teal">Lux-linked</span><span class="badge badge-teal">Aluminium</span></div>
+          <div class="tile-price"><span>Per m² installed</span><span class="price-val">From 380 MAD/m²</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img" style="background:radial-gradient(ellipse at 50% 30%,rgba(27,153,139,.15) 0%,transparent 60%),#071512">
+          <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+            <!-- Exterior shutter frame -->
+            <rect x="10" y="10" width="80" height="80" rx="6" fill="none" stroke="#1B998B" stroke-width="1.2"/>
+            <!-- Horizontal louvres -->
+            <rect x="12" y="18" width="76" height="6" rx="1" fill="rgba(27,153,139,0.2)" stroke="#1B998B" stroke-width="0.7"/>
+            <rect x="12" y="27" width="76" height="6" rx="1" fill="rgba(27,153,139,0.18)" stroke="#1B998B" stroke-width="0.7"/>
+            <rect x="12" y="36" width="76" height="6" rx="1" fill="rgba(27,153,139,0.15)" stroke="#1B998B" stroke-width="0.6"/>
+            <rect x="12" y="45" width="76" height="6" rx="1" fill="rgba(27,153,139,0.12)" stroke="#1B998B" stroke-width="0.6"/>
+            <rect x="12" y="54" width="76" height="6" rx="1" fill="rgba(27,153,139,0.1)" stroke="#1B998B" stroke-width="0.5"/>
+            <rect x="12" y="63" width="76" height="6" rx="1" fill="rgba(27,153,139,0.08)" stroke="#1B998B" stroke-width="0.5"/>
+            <rect x="12" y="72" width="76" height="6" rx="1" fill="rgba(27,153,139,0.06)" stroke="#1B998B" stroke-width="0.5"/>
+            <!-- Motor & control -->
+            <rect x="40" y="6" width="20" height="8" rx="3" fill="rgba(43,191,174,0.2)" stroke="#2BBFAE" stroke-width="0.8"/>
+            <circle cx="50" cy="10" r="2" fill="#2BBFAE" opacity="0.9"/>
+            <!-- Wind sensor icon -->
+            <path d="M82 20 Q88 17 88 24 Q88 30 82 28" stroke="#F4A261" stroke-width="1" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Smart Exterior Shutter · Weather-aware</span>
+          <div class="tile-name">AYDAR Volet Roulant</div>
+          <div class="tile-desc">Motorised exterior rolling shutter. Weather-aware — auto-closes when wind speed exceeds 40km/h or rain is detected. Integrates with climate system: lowers in summer afternoons to reduce AC load automatically.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Wind/rain auto-close</span><span class="badge badge-gold">AC integration</span></div>
+          <div class="tile-price"><span>Per shutter installed</span><span class="price-val">From 1,490 MAD</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Accessories -->
+    <div class="cat-section-head reveal" style="margin-top:32px">
+      <span class="ey">03 · Controls & Accessories</span>
+      <h2>Control without a phone.</h2>
+      <p class="sb" style="max-width:500px">Wall switches, scene remotes, and sensors that work with — or without — the app.</p>
+    </div>
+    <div class="cat-grid cat-grid-4 reveal d1">
+
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.12) 0%,transparent 65%),#071512">
+          <svg width="60" height="90" viewBox="0 0 60 90" fill="none">
+            <rect x="8" y="10" width="44" height="70" rx="8" fill="rgba(27,153,139,0.08)" stroke="#1B998B" stroke-width="1"/>
+            <!-- Up/Down arrows -->
+            <path d="M30 28 L22 38 L38 38 Z" fill="#2BBFAE" opacity="0.7"/>
+            <path d="M30 62 L22 52 L38 52 Z" fill="#1B998B" opacity="0.7"/>
+            <line x1="16" y1="45" x2="44" y2="45" stroke="#1B998B" stroke-width="0.5" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Wall Switch · Shading</span>
+          <div class="tile-name">Shade Switch W1</div>
+          <div class="tile-desc">Dedicated wall switch for curtain motors. Open, close, stop, favourite position. No neutral wire.</div>
+          <div class="tile-badges"><span class="badge badge-teal">No neutral</span></div>
+          <div class="tile-price"><span>Wall Switch</span><span class="price-val">120 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(244,162,97,.1) 0%,transparent 65%),#0e0a04">
+          <svg width="60" height="90" viewBox="0 0 60 90" fill="none">
+            <rect x="12" y="15" width="36" height="60" rx="10" fill="rgba(244,162,97,0.08)" stroke="#F4A261" stroke-width="1"/>
+            <circle cx="30" cy="35" r="10" fill="none" stroke="#F4A261" stroke-width="1"/>
+            <path d="M30 25 L30 35 L38 30" stroke="#2BBFAE" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="22" cy="60" r="4" fill="none" stroke="#1B998B" stroke-width="0.8"/>
+            <circle cx="38" cy="60" r="4" fill="none" stroke="#F4A261" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Scene Remote · Shading</span>
+          <div class="tile-name">Shade Remote R4</div>
+          <div class="tile-desc">4-button battery remote. Program any position or scene. Wall-mountable. Works without Wi-Fi.</div>
+          <div class="tile-badges"><span class="badge badge-gold">No Wi-Fi needed</span></div>
+          <div class="tile-price"><span>Remote</span><span class="price-val">145 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(43,191,174,.1) 0%,transparent 65%),#071512">
+          <svg width="70" height="90" viewBox="0 0 70 90" fill="none">
+            <circle cx="35" cy="45" r="28" fill="rgba(43,191,174,0.06)" stroke="#2BBFAE" stroke-width="1"/>
+            <circle cx="35" cy="45" r="18" fill="rgba(43,191,174,0.1)"/>
+            <text x="35" y="52" font-family="serif" font-size="22" fill="#F4A261" text-anchor="middle">☀️</text>
+            <path d="M12 25 Q35 15 58 25" stroke="#2BBFAE" stroke-width="0.7" fill="none" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Lux Sensor · Shade trigger</span>
+          <div class="tile-name">LuxLink Sensor</div>
+          <div class="tile-desc">Outdoor lux sensor. Triggers blinds and curtains when sunlight exceeds your threshold. Battery powered, 2-year life.</div>
+          <div class="tile-badges"><span class="badge badge-teal">Outdoor rated</span></div>
+          <div class="tile-price"><span>Lux Sensor</span><span class="price-val">129 MAD</span></div>
+        </div>
+      </div>
+
+      <div class="prod-tile">
+        <div class="tile-img" style="height:160px;background:radial-gradient(ellipse at 50% 50%,rgba(27,153,139,.1) 0%,transparent 65%),#071512">
+          <svg width="60" height="90" viewBox="0 0 60 90" fill="none">
+            <rect x="10" y="20" width="40" height="55" rx="6" fill="rgba(27,153,139,0.08)" stroke="#1B998B" stroke-width="1"/>
+            <!-- Wind speed display -->
+            <rect x="14" y="26" width="32" height="18" rx="3" fill="rgba(43,191,174,0.12)" stroke="#2BBFAE" stroke-width="0.6"/>
+            <text x="30" y="38" font-family="monospace" font-size="9" fill="#2BBFAE" text-anchor="middle">36 km/h</text>
+            <!-- Rain indicator -->
+            <text x="30" y="56" font-family="serif" font-size="16" fill="#1B998B" text-anchor="middle" opacity="0.7">🌧️</text>
+            <!-- Alert -->
+            <circle cx="30" cy="68" r="4" fill="#F4A261" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tile-tag">Weather Sensor · Exterior</span>
+          <div class="tile-name">WeatherGuard Sensor</div>
+          <div class="tile-desc">Wind + rain sensor for exterior shutters. Auto-retracts shutters before storm damage. Essential for Morocco's coastal and Atlas regions.</div>
+          <div class="tile-badges"><span class="badge badge-gold">Storm protection</span></div>
+          <div class="tile-price"><span>Weather Sensor</span><span class="price-val">189 MAD</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SCENES -->
+    <div class="cat-section-head reveal" style="margin-top:48px">
+      <span class="ey">04 · Shading Scenes</span>
+      <h2>Light on your terms.</h2>
+    </div>
+    <div class="scenes reveal d1">
+      <div class="scene-card"><div class="scene-icon">🌅</div><div class="scene-name">Good Morning</div><div class="scene-desc">Curtains open 50% · Warm light in</div></div>
+      <div class="scene-card"><div class="scene-icon">🧑‍💻</div><div class="scene-name">Focus Mode</div><div class="scene-desc">Blinds at 40° · Screen glare eliminated</div></div>
+      <div class="scene-card"><div class="scene-icon">🌞</div><div class="scene-name">Afternoon Block</div><div class="scene-desc">Exterior shutters down · AC savings</div></div>
+      <div class="scene-card"><div class="scene-icon">🎬</div><div class="scene-name">Cinema</div><div class="scene-desc">Full blackout · All rooms · One tap</div></div>
+      <div class="scene-card"><div class="scene-icon">🔒</div><div class="scene-name">Privacy</div><div class="scene-desc">All closed instantly · Entire home</div></div>
+      <div class="scene-card"><div class="scene-icon">✈️</div><div class="scene-name">Away Mode</div><div class="scene-desc">Random adjustments · Simulates presence</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <div class="si">
+    <h2>Ready to control your light?</h2>
+    <p>AYDAR installs, programs every scene, and connects it to your whole home.</p>
+    <div class="cta-acts">
+      <a href="index.html#contact" class="btn-p">Get a free quote</a>
+      <a href="index.html" class="btn-g">← Back to AYDAR</a>
+    </div>
+  </div>
+</div>
+
+<footer id="footer"></footer>
+<button class="btt" id="btt">↑</button>
+
+<script src="shared.js"></script>
+<script>injectNav('Curtains');injectFooter();initScroll();initReveal();</script>
+</body>
+</html>
