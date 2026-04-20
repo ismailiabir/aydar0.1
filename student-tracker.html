@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Progress Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="student-tracker.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar card">
+      <div>
+        <p class="eyebrow">🌿 Aesthetic Study OS</p>
+        <h1>Student Progress Hub</h1>
+        <p class="muted">Track subjects, exams, required skills, prep %, countdowns, and resources.</p>
+      </div>
+      <div class="controls">
+        <label>Theme
+          <select id="themeSelect">
+            <option value="teal">Teal Dream</option>
+            <option value="mint">Mint Breeze</option>
+            <option value="ocean">Ocean Night</option>
+          </select>
+        </label>
+        <label>Student Name
+          <input id="studentName" type="text" placeholder="e.g., Aya" />
+        </label>
+        <div class="btn-row">
+          <button id="exportBtn">Export Data</button>
+          <label for="importInput" class="btn-like">Import Data</label>
+          <input id="importInput" type="file" accept="application/json" hidden />
+          <button id="resetBtn" class="danger">Reset</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="grid metrics">
+      <article class="card metric">
+        <h3>💚 Overall Prep</h3>
+        <p id="overallPrep" class="big">0%</p>
+      </article>
+      <article class="card metric">
+        <h3>⏳ Nearest Exam</h3>
+        <p id="nearestExam" class="big">No exam yet</p>
+      </article>
+      <article class="card metric">
+        <h3>🧠 Skills Mastered</h3>
+        <p id="skillsMastered" class="big">0</p>
+      </article>
+      <article class="card metric">
+        <h3>📅 Tasks Done</h3>
+        <p id="tasksDone" class="big">0</p>
+      </article>
+    </section>
+
+    <section class="grid main-grid">
+      <article class="card panel">
+        <div class="panel-head">
+          <h2>📚 Subjects</h2>
+          <button id="addSubject">+ Add</button>
+        </div>
+        <div id="subjectList" class="list"></div>
+      </article>
+
+      <article class="card panel">
+        <div class="panel-head">
+          <h2>📝 Exams</h2>
+          <button id="addExam">+ Add</button>
+        </div>
+        <div id="examList" class="list"></div>
+      </article>
+
+      <article class="card panel">
+        <div class="panel-head">
+          <h2>🧠 Skills</h2>
+          <button id="addSkill">+ Add</button>
+        </div>
+        <div id="skillList" class="list"></div>
+      </article>
+
+      <article class="card panel">
+        <div class="panel-head">
+          <h2>📂 Resources</h2>
+          <button id="addResource">+ Add</button>
+        </div>
+        <div id="resourceList" class="list"></div>
+      </article>
+    </section>
+
+    <section class="card panel planner">
+      <div class="panel-head">
+        <h2>✅ Weekly Planner</h2>
+        <button id="addTask">+ Add Task</button>
+      </div>
+      <div id="taskList" class="list"></div>
+    </section>
+  </div>
+
+  <template id="subjectTpl">
+    <div class="item">
+      <input data-field="name" placeholder="Subject name" />
+      <div class="inline-2">
+        <label>Prep % <input data-field="prep" type="range" min="0" max="100" /></label>
+        <span class="chip" data-out="prepOut">0%</span>
+      </div>
+      <div class="inline-2">
+        <input data-field="teacher" placeholder="Teacher" />
+        <select data-field="priority"><option>Low</option><option>Medium</option><option>High</option><option>Urgent</option></select>
+      </div>
+      <button data-action="remove" class="danger small">Remove</button>
+    </div>
+  </template>
+
+  <template id="examTpl">
+    <div class="item">
+      <input data-field="name" placeholder="Exam name" />
+      <div class="inline-2">
+        <input data-field="subject" placeholder="Subject" />
+        <input data-field="date" type="date" />
+      </div>
+      <div class="inline-2">
+        <input data-field="readiness" type="number" min="0" max="100" placeholder="Readiness %" />
+        <span class="chip" data-out="countdown">No date</span>
+      </div>
+      <button data-action="remove" class="danger small">Remove</button>
+    </div>
+  </template>
+
+  <template id="skillTpl">
+    <div class="item">
+      <input data-field="name" placeholder="Skill" />
+      <div class="inline-2">
+        <input data-field="subject" placeholder="Subject" />
+        <select data-field="level"><option>Beginner</option><option>Learning</option><option>Comfortable</option><option>Mastered</option></select>
+      </div>
+      <button data-action="remove" class="danger small">Remove</button>
+    </div>
+  </template>
+
+  <template id="resourceTpl">
+    <div class="item">
+      <input data-field="title" placeholder="Resource title" />
+      <div class="inline-2">
+        <input data-field="subject" placeholder="Subject" />
+        <select data-field="type"><option>YouTube</option><option>PDF</option><option>Notes</option><option>Flashcards</option><option>Website</option><option>Book</option></select>
+      </div>
+      <input data-field="url" placeholder="URL" />
+      <button data-action="remove" class="danger small">Remove</button>
+    </div>
+  </template>
+
+  <template id="taskTpl">
+    <div class="item">
+      <input data-field="task" placeholder="Task" />
+      <div class="inline-3">
+        <input data-field="subject" placeholder="Subject" />
+        <input data-field="date" type="date" />
+        <select data-field="status"><option>Not started</option><option>In progress</option><option>Done</option></select>
+      </div>
+      <button data-action="remove" class="danger small">Remove</button>
+    </div>
+  </template>
+
+  <script src="student-tracker.js"></script>
+</body>
+</html>
